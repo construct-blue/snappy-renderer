@@ -12,25 +12,13 @@ use PHPUnit\Framework\TestCase;
 use stdClass;
 use Stringable;
 
-class RendererTest extends TestCase
+class BasicRenderingTest extends TestCase
 {
     private function mockRenderable(iterable $elements): Renderable
     {
-        $renderable = $this->getMockBuilder(Renderable::class)
-            ->onlyMethods(['render'])
-            ->getMockForAbstractClass();
-        $renderable->method('render')->willReturn($elements);
-        return $renderable;
-    }
-
-    public function testShouldThrowExceptionForInvalidElement()
-    {
-        self::expectException(RenderException::class);
-        self::expectExceptionMessage('Element of type stdClass could not be rendered.');
-        $renderable = $this->mockRenderable([new stdClass()]);
-
-        $renderer = new Renderer(new Pipe());
-        $renderer->render($renderable, new stdClass());
+        $builder = new RenderableMockBuilder($this);
+        $builder->setIterable($elements);
+        return $builder->getMock();
     }
 
     private function mockStringable(string $content): Stringable
@@ -40,6 +28,16 @@ class RendererTest extends TestCase
             ->getMockForAbstractClass();
         $stringable->method('__toString')->willReturn($content);
         return $stringable;
+    }
+
+    public function testShouldThrowExceptionForInvalidElement()
+    {
+        $invalidRenderable = new stdClass();
+        self::expectExceptionObject(RenderException::forInvalidElement($invalidRenderable));
+        $renderable = $this->mockRenderable([$invalidRenderable]);
+
+        $renderer = new Renderer(new Pipe());
+        $renderer->render($renderable, new stdClass());
     }
 
     public function testShouldRenderStringables()

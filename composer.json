@@ -8,7 +8,10 @@
   "autoload": {
     "psr-4": {
       "Blue\\Core\\View\\": "src"
-    }
+    },
+    "files": [
+      "functions.php"
+    ]
   },
   "autoload-dev": {
     "psr-4": {

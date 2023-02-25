@@ -12,7 +12,7 @@ class RenderException extends Exception
     {
         return new RenderException(
             sprintf(
-                'Element of type %s could not be rendered.',
+                'Element of type %s could not be rendered',
                 get_debug_type($element),
             )
         );
