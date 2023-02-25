@@ -31,11 +31,7 @@ class Renderer
         ob_start();
         try {
             foreach ($renderable->render($model) as $element) {
-                if ($element instanceof Renderable) {
-                    echo $this->render($element, $model);
-                } else {
-                    echo $this->strategy->render($element, $model, $this, new Last());
-                }
+                echo $this->strategy->render($element, $model, $this, new Last());
             }
         } finally {
             $result = ob_get_clean();

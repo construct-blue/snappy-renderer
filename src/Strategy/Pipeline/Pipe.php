@@ -16,6 +16,7 @@ class Pipe implements Strategy
     public function __construct()
     {
         $this->queue = new SplQueue();
+        $this->add(new Strategy\Renderable());
         $this->add(new Strategy\PlainString());
         $this->add(new Strategy\PlainIterable());
         $this->add(new Strategy\Stringable());
