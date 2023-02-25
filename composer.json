@@ -1,5 +1,5 @@
 {
-  "name": "blue/snappy-renderer",
+  "name": "construct-blue/snappy-renderer",
   "description": "A component oriented server side rendering engine for PHP",
   "homepage": "https://github.com/construct-blue/snappy-renderer",
   "type": "library",
