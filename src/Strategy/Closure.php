@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Blue\Core\View\Strategy;
+namespace SnappyRenderer\Strategy;
 
-use Blue\Core\View\NextStrategy;
-use Blue\Core\View\Renderable\RenderableClosure;
-use Blue\Core\View\Renderer;
-use Blue\Core\View\Strategy;
+use SnappyRenderer\NextStrategy;
+use SnappyRenderer\Renderable\RenderableClosure;
+use SnappyRenderer\Renderer;
+use SnappyRenderer\Strategy;
 
 class Closure implements Strategy
 {

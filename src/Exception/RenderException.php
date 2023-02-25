@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Blue\Core\View\Exception;
+namespace SnappyRenderer\Exception;
 
 use Exception;
 

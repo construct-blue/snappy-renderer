@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BlueTest\Core\View;
+namespace SnappyRendererTest;
 
-use Blue\Core\View\Renderable\RenderableClosure;
-use Blue\Core\View\Renderer;
-use Blue\Core\View\Strategy\Pipeline\Pipe;
 use PHPUnit\Framework\TestCase;
+use SnappyRenderer\Renderable\RenderableClosure;
+use SnappyRenderer\Renderer;
+use SnappyRenderer\Strategy\Pipeline\Pipe;
 
 class FunctionalRenderingTest extends TestCase
 {

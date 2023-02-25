@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Blue\Core\View\Renderable;
+namespace SnappyRenderer\Renderable;
 
-use Blue\Core\View\Renderable;
+use SnappyRenderer\Renderable;
 use Closure;
 
 class RenderableClosure implements Renderable

@@ -7,7 +7,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Blue\\Core\\View\\": "src"
+      "SnappyRenderer\\": "src"
     },
     "files": [
       "functions.php"
@@ -15,7 +15,7 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "BlueTest\\Core\\View\\": "test"
+      "SnappyRendererTest\\": "test"
     }
   }
 }

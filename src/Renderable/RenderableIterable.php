@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Blue\Core\View\Renderable;
+namespace SnappyRenderer\Renderable;
 
-use Blue\Core\View\Renderable;
+use SnappyRenderer\Renderable;
 
 class RenderableIterable implements Renderable
 {

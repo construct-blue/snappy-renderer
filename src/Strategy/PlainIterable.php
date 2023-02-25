@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace Blue\Core\View\Strategy;
+namespace SnappyRenderer\Strategy;
 
-use Blue\Core\View\NextStrategy;
-use Blue\Core\View\Renderable\RenderableIterable;
-use Blue\Core\View\Strategy;
-use Blue\Core\View\Renderer;
+use SnappyRenderer\NextStrategy;
+use SnappyRenderer\Renderable\RenderableIterable;
+use SnappyRenderer\Strategy;
+use SnappyRenderer\Renderer;
 
 class PlainIterable implements Strategy
 {

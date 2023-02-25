@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use Blue\Core\View\Renderable\RenderableClosure;
+use SnappyRenderer\Renderable\RenderableClosure;
 
 function v_each(iterable $models, Closure $closure): iterable
 {

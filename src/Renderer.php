@@ -2,21 +2,22 @@
 
 declare(strict_types=1);
 
-namespace Blue\Core\View;
+namespace SnappyRenderer;
 
-use Blue\Core\View\Exception\RenderException;
-use Blue\Core\View\Strategy\Pipeline\Last;
+use SnappyRenderer\Exception\RenderException;
+use SnappyRenderer\Strategy\Pipeline\Last;
+use SnappyRenderer\Strategy\Pipeline\Pipe;
 
 class Renderer
 {
     private Strategy $strategy;
 
     /**
-     * @param Strategy $strategy
+     * @param Strategy|null $strategy
      */
-    public function __construct(Strategy $strategy)
+    public function __construct(Strategy $strategy = null)
     {
-        $this->strategy = $strategy;
+        $this->strategy = $strategy ?? new Pipe();
     }
 
     /**

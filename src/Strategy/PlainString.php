@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Blue\Core\View\Strategy;
+namespace SnappyRenderer\Strategy;
 
-use Blue\Core\View\NextStrategy;
-use Blue\Core\View\Renderer;
-use Blue\Core\View\Strategy;
+use SnappyRenderer\NextStrategy;
+use SnappyRenderer\Renderer;
+use SnappyRenderer\Strategy;
 
 class PlainString implements Strategy
 {

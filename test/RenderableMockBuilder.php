@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace BlueTest\Core\View;
+namespace SnappyRendererTest;
 
-use Blue\Core\View\Renderable;
 use PHPUnit\Framework\MockObject\MockBuilder;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
+use SnappyRenderer\Renderable;
 
 class RenderableMockBuilder
 {

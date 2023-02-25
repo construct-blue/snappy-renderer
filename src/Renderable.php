@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Blue\Core\View;
+namespace SnappyRenderer;
 
 use Stringable;
 
