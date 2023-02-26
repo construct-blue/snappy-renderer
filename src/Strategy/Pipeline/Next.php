@@ -20,7 +20,7 @@ class Next implements NextStrategy
         $this->next = $next;
     }
 
-    public function continue(mixed $element, object $model, Renderer $renderer): string
+    public function continue($element, object $model, Renderer $renderer): string
     {
         if ($this->queue->isEmpty()) {
             return $this->next->continue($element, $model, $renderer);

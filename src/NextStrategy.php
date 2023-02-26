@@ -6,5 +6,5 @@ namespace SnappyRenderer;
 
 interface NextStrategy
 {
-    public function continue(mixed $element, object $model, Renderer $renderer): string;
+    public function continue($element, object $model, Renderer $renderer): string;
 }

@@ -9,9 +9,9 @@ use SnappyRenderer\Renderable\RenderableClosure;
 use SnappyRenderer\Renderer;
 use SnappyRenderer\Strategy;
 
-class Closure implements Strategy
+class RenderClosure implements Strategy
 {
-    public function render(mixed $element, object $model, Renderer $renderer, NextStrategy $next): string
+    public function render($element, object $model, Renderer $renderer, NextStrategy $next): string
     {
         if ($element instanceof \Closure) {
             return $renderer->render(new RenderableClosure($element), $model);

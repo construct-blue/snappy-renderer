@@ -9,9 +9,9 @@ use SnappyRenderer\Renderable\RenderableIterable;
 use SnappyRenderer\Strategy;
 use SnappyRenderer\Renderer;
 
-class PlainIterable implements Strategy
+class RenderIterable implements Strategy
 {
-    public function render(mixed $element, object $model, Renderer $renderer, NextStrategy $next): string
+    public function render($element, object $model, Renderer $renderer, NextStrategy $next): string
     {
         if (is_iterable($element)) {
             return $renderer->render(new RenderableIterable($element), $model);

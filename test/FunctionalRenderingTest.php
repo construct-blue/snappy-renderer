@@ -15,7 +15,7 @@ class FunctionalRenderingTest extends TestCase
     {
         $renderer = new Renderer(new Pipe());
         $result = $renderer->render(new RenderableClosure(include 'functional/app.php'), (object)['greeting' => 'Hello World']);
-        $this->assertEquals(
+        self::assertEquals(
             <<<HTML
 <html lang="en"><head>
 <title>My App</title>

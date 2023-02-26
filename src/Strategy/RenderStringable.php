@@ -7,13 +7,14 @@ namespace SnappyRenderer\Strategy;
 use SnappyRenderer\NextStrategy;
 use SnappyRenderer\Renderer;
 use SnappyRenderer\Strategy;
+use Stringable;
 
-class PlainString implements Strategy
+class RenderStringable implements Strategy
 {
-    public function render(mixed $element, object $model, Renderer $renderer, NextStrategy $next): string
+    public function render($element, object $model, Renderer $renderer, NextStrategy $next): string
     {
-        if (is_string($element)) {
-            return $element;
+        if ($element instanceof Stringable) {
+            return (string)$element;
         }
         return $next->continue($element, $model, $renderer);
     }

@@ -45,7 +45,7 @@ class BasicRenderingTest extends TestCase
         $component = $this->mockRenderable([$this->mockStringable('hello world')]);
         $renderer = new Renderer(new Pipe());
         $result = $renderer->render($component, new stdClass());
-        $this->assertEquals('hello world', $result);
+        self::assertEquals('hello world', $result);
     }
 
     public function testShouldRenderRenderablesRecursively()
@@ -60,7 +60,7 @@ class BasicRenderingTest extends TestCase
 
         $renderer = new Renderer(new Pipe());
         $result = $renderer->render($renderable, new stdClass());
-        $this->assertEquals('hello world', $result);
+        self::assertEquals('hello world', $result);
     }
 
     public function testShouldRenderPlainStrings()
@@ -69,7 +69,7 @@ class BasicRenderingTest extends TestCase
 
         $renderer = new Renderer(new Pipe());
         $result = $renderer->render($renderable, new stdClass());
-        $this->assertEquals('hello world', $result);
+        self::assertEquals('hello world', $result);
     }
 
     public function testShouldRenderClosures()
@@ -77,7 +77,7 @@ class BasicRenderingTest extends TestCase
         $renderable = $this->mockRenderable([fn() => ['hello world']]);
         $renderer = new Renderer(new Pipe());
         $result = $renderer->render($renderable, new stdClass());
-        $this->assertEquals('hello world', $result);
+        self::assertEquals('hello world', $result);
     }
 
     public function testShouldAllowPassingOfVariables()
@@ -94,7 +94,7 @@ class BasicRenderingTest extends TestCase
         $model = new stdClass();
         $model->name = 'world';
         $result = $renderer->render($renderable, $model);
-        $this->assertEquals('hello world', $result);
+        self::assertEquals('hello world', $result);
     }
 
     public function testShouldRenderIterables()
@@ -102,6 +102,6 @@ class BasicRenderingTest extends TestCase
         $renderable = $this->mockRenderable([['hello', ' ', 'world']]);
         $renderer = new Renderer(new Pipe());
         $result = $renderer->render($renderable, new stdClass());
-        $this->assertEquals('hello world', $result);
+        self::assertEquals('hello world', $result);
     }
 }

@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace SnappyRenderer;
 
-use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Strategy\Pipeline\Last;
 use SnappyRenderer\Strategy\Pipeline\Pipe;
 
@@ -24,7 +23,6 @@ class Renderer
      * @param Renderable $renderable
      * @param object $model
      * @return string
-     * @throws RenderException
      */
     public function render(Renderable $renderable, object $model): string
     {

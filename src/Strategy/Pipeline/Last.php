@@ -10,7 +10,7 @@ use SnappyRenderer\Renderer;
 
 class Last implements NextStrategy
 {
-    public function continue(mixed $element, object $model, Renderer $renderer): string
+    public function continue($element, object $model, Renderer $renderer): string
     {
         throw RenderException::forInvalidElement($element);
     }

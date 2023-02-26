@@ -8,7 +8,7 @@ use Exception;
 
 class RenderException extends Exception
 {
-    public static function forInvalidElement(mixed $element): RenderException
+    public static function forInvalidElement($element): RenderException
     {
         return new RenderException(
             sprintf(

@@ -53,7 +53,7 @@ class HtmlRenderingTest extends TestCase
 
         $renderer = new Renderer(new Pipe());
         $result = $renderer->render($document, (object)[]);
-        $this->assertEquals(<<<HTML
+        self::assertEquals(<<<HTML
 <html lang="en"><head><title>Test Page</title></head><body><h1>Test Page</h1><ul><li><a href="/">Home</a></li><li><a href="/my-account">My Account</a></li><li><a href="/about">About</a></li></ul></body></html>
 HTML,
             $result);

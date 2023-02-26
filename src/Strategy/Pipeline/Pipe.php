@@ -16,11 +16,11 @@ class Pipe implements Strategy
     public function __construct()
     {
         $this->queue = new SplQueue();
-        $this->add(new Strategy\Renderable());
-        $this->add(new Strategy\PlainString());
-        $this->add(new Strategy\PlainIterable());
-        $this->add(new Strategy\Stringable());
-        $this->add(new Strategy\Closure());
+        $this->add(new Strategy\RenderRenderable());
+        $this->add(new Strategy\RenderString());
+        $this->add(new Strategy\RenderIterable());
+        $this->add(new Strategy\RenderStringable());
+        $this->add(new Strategy\RenderClosure());
     }
 
     public function add(Strategy $strategy)
@@ -28,7 +28,7 @@ class Pipe implements Strategy
         $this->queue->enqueue($strategy);
     }
 
-    public function render(mixed $element, object $model, Renderer $renderer, NextStrategy $next): string
+    public function render($element, object $model, Renderer $renderer, NextStrategy $next): string
     {
         return (new Next($this->queue, $next))->continue($element, $model, $renderer);
     }
