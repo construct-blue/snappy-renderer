@@ -5,15 +5,20 @@ declare(strict_types=1);
 namespace SnappyRendererTest;
 
 use PHPUnit\Framework\TestCase;
+use SnappyRenderer\Exception\RenderException;
+use SnappyRenderer\RenderPipeline;
 use SnappyRenderer\Renderable\RenderableClosure;
 use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy\Pipeline\Pipe;
 
 class FunctionalRenderingTest extends TestCase
 {
+    /**
+     * @return void
+     * @throws RenderException
+     */
     public function testShouldAllowRenderingOfRenderableFiles()
     {
-        $renderer = new Renderer(new Pipe());
+        $renderer = new Renderer(new RenderPipeline());
         $result = $renderer->render(new RenderableClosure(include 'functional/app.php'), (object)['greeting' => 'Hello World']);
         self::assertEquals(
             <<<HTML

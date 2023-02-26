@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace SnappyRendererTest;
 
 use PHPUnit\Framework\TestCase;
+use SnappyRenderer\Exception\RenderException;
+use SnappyRenderer\Renderable\RenderableIterable;
+use SnappyRenderer\RenderPipeline;
 use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy\Pipeline\Pipe;
 
 class HtmlRenderingTest extends TestCase
 {
+    /**
+     * @return void
+     * @throws RenderException
+     */
     public function testShouldAllowRenderingOfHtmlDocuments()
     {
         $menu = [
@@ -27,8 +33,7 @@ class HtmlRenderingTest extends TestCase
             ],
         ];
 
-        $builder = new RenderableMockBuilder($this);
-        $builder->setIterable([
+        $document = new RenderableIterable([
             '<html lang="en">',
             '<head>', [
                 '<title>Test Page</title>',
@@ -49,13 +54,38 @@ class HtmlRenderingTest extends TestCase
             '</body>',
             '</html>'
         ]);
-        $document = $builder->getMock();
 
-        $renderer = new Renderer(new Pipe());
+        $renderer = new Renderer(new RenderPipeline());
         $result = $renderer->render($document, (object)[]);
         self::assertEquals(<<<HTML
 <html lang="en"><head><title>Test Page</title></head><body><h1>Test Page</h1><ul><li><a href="/">Home</a></li><li><a href="/my-account">My Account</a></li><li><a href="/about">About</a></li></ul></body></html>
 HTML,
             $result);
+    }
+
+    /**
+     * @return void
+     * @throws RenderException
+     */
+    public function testShouldAllowRenderingOfStringLists()
+    {
+        $properties = [
+            'bright',
+            'unbreakable',
+            'fast',
+        ];
+
+        $renderable = new RenderableIterable([
+            '<ul>',
+            v_each_string($properties, fn($property) => [
+                "<li>$property</li>"
+            ]),
+            '</ul>',
+        ]);
+
+        $renderer = new Renderer();
+
+        $result = $renderer->render($renderable, (object)[]);
+        $this->assertEquals('<ul><li>bright</li><li>unbreakable</li><li>fast</li></ul>', $result);
     }
 }

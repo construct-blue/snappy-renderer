@@ -7,6 +7,10 @@ namespace SnappyRenderer\Renderable;
 use SnappyRenderer\Renderable;
 use Closure;
 
+/**
+ * @phpstan-import-type element from Renderable
+ * @implements Renderable<object>
+ */
 class RenderableClosure implements Renderable
 {
     private Closure $closure;
@@ -19,6 +23,10 @@ class RenderableClosure implements Renderable
         $this->closure = $closure;
     }
 
+    /***
+     * @param object $model
+     * @return iterable<element>
+     */
     public function render(object $model): iterable
     {
         return ($this->closure)($model);
