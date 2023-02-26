@@ -10,19 +10,19 @@ use SnappyRenderer\Renderable;
  * @phpstan-import-type element from Renderable
  * @implements Renderable<object>
  */
-class RenderableIterable implements Renderable
+class Elements implements Renderable
 {
     /**
      * @var iterable<element>
      */
-    private iterable $iterable;
+    private iterable $elements;
 
     /**
-     * @param iterable<element> $iterable
+     * @param iterable<element> $elements
      */
-    public function __construct(iterable $iterable)
+    public function __construct(iterable $elements)
     {
-        $this->iterable = $iterable;
+        $this->elements = $elements;
     }
 
     /**
@@ -32,6 +32,6 @@ class RenderableIterable implements Renderable
      */
     public function render(object $model): iterable
     {
-        return $this->iterable;
+        return $this->elements;
     }
 }

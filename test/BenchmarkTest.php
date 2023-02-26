@@ -6,7 +6,10 @@ namespace SnappyRendererTest;
 
 use PHPUnit\Framework\TestCase;
 use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Renderable\RenderableIterable;
+use SnappyRenderer\Renderable\Elements;
+use SnappyRenderer\Renderable\Enumeration;
+use SnappyRenderer\Renderable\Functional;
+use SnappyRenderer\Renderable\StringEnumeration;
 use SnappyRenderer\Renderer;
 use stdClass;
 
@@ -51,62 +54,83 @@ class BenchmarkTest extends TestCase
             ];
             $people[] = $person;
         }
-        $start =  microtime(true);
-        $renderable = new RenderableIterable([
+        $start = microtime(true);
+        $renderable = new Elements([
             '<html lang="en">',
-            '<head>', [
+            '<head>',
+            [
                 '<title>Test Page</title>',
             ],
             '</head>',
-            '<body>', [
+            '<body>',
+            [
                 '<h1>Test Page</h1>',
                 '<ul>',
-                v_each($links, fn($item) => [
-                    '<li>',
-                    sprintf('<a href="%s">', $item->href),
-                    $item->text,
-                    '</a>',
-                    '</li>',
-                ]),
+                new Enumeration(
+                    $links,
+                    new Functional(fn($item) => [
+                        '<li>',
+                        sprintf('<a href="%s">', $item->href),
+                        $item->text,
+                        '</a>',
+                        '</li>',
+                    ])
+                ),
                 '</ul>',
 
                 '<ul>',
-                v_each($people, fn($person) => [
-                    '<li>',
-                    [
-                        '<table>',
+                new Enumeration(
+                    $people,
+                    new Functional(fn($person) => [
+                        '<li>',
                         [
-                            '<tr>',
+                            '<table>',
                             [
-                                '<th>', 'ID', '</th>',
-                                '<td>', (string)$person->id, '</td>',
-                            ],
-                            '</tr>',
-                            '<tr>',
-                            [
-                                '<th>', 'Name', '</th>',
-                                '<td>', $person->name, '</td>',
-                            ],
-                            '</tr>',
-                            '<tr>',
-                            [
-                                '<th>', 'Properties', '</th>',
-                                '<td>',
+                                '<tr>',
                                 [
-                                    '<ul>',
-                                        v_each_string($person->properties, fn($property) => [
-                                            "<li>$property</li>"
-                                        ]),
-                                    '</ul>',
+                                    '<th>',
+                                    'ID',
+                                    '</th>',
+                                    '<td>',
+                                    (string)$person->id,
+                                    '</td>',
                                 ],
-                                '</td>',
+                                '</tr>',
+                                '<tr>',
+                                [
+                                    '<th>',
+                                    'Name',
+                                    '</th>',
+                                    '<td>',
+                                    $person->name,
+                                    '</td>',
+                                ],
+                                '</tr>',
+                                '<tr>',
+                                [
+                                    '<th>',
+                                    'Properties',
+                                    '</th>',
+                                    '<td>',
+                                    [
+                                        '<ul>',
+                                        new StringEnumeration(
+                                            $person->properties,
+                                            new Functional(fn($property) => [
+                                                "<li>$property</li>"
+                                            ])
+                                        ),
+                                        '</ul>',
+                                    ],
+                                    '</td>',
+                                ],
+                                '</tr>',
                             ],
-                            '</tr>',
+                            '</table>',
                         ],
-                        '</table>',
-                    ],
-                    '</li>',
-                ]),
+                        '</li>',
+                    ])
+                ),
                 '</ul>',
             ],
             '</body>',

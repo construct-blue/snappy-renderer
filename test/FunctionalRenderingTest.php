@@ -7,7 +7,7 @@ namespace SnappyRendererTest;
 use PHPUnit\Framework\TestCase;
 use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\RenderPipeline;
-use SnappyRenderer\Renderable\RenderableClosure;
+use SnappyRenderer\Renderable\Functional;
 use SnappyRenderer\Renderer;
 
 class FunctionalRenderingTest extends TestCase
@@ -19,7 +19,7 @@ class FunctionalRenderingTest extends TestCase
     public function testShouldAllowRenderingOfRenderableFiles()
     {
         $renderer = new Renderer(new RenderPipeline());
-        $result = $renderer->render(new RenderableClosure(include 'functional/app.php'), (object)['greeting' => 'Hello World']);
+        $result = $renderer->render(new Functional(include 'functional/app.php'), (object)['greeting' => 'Hello World']);
         self::assertEquals(
             <<<HTML
 <html lang="en"><head>

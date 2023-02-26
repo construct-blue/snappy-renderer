@@ -6,7 +6,10 @@ namespace SnappyRendererTest;
 
 use PHPUnit\Framework\TestCase;
 use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Renderable\RenderableIterable;
+use SnappyRenderer\Renderable\Elements;
+use SnappyRenderer\Renderable\Enumeration;
+use SnappyRenderer\Renderable\Functional;
+use SnappyRenderer\Renderable\StringEnumeration;
 use SnappyRenderer\RenderPipeline;
 use SnappyRenderer\Renderer;
 
@@ -33,22 +36,27 @@ class HtmlRenderingTest extends TestCase
             ],
         ];
 
-        $document = new RenderableIterable([
+        $document = new Elements([
             '<html lang="en">',
-            '<head>', [
+            '<head>',
+            [
                 '<title>Test Page</title>',
             ],
             '</head>',
-            '<body>', [
+            '<body>',
+            [
                 '<h1>Test Page</h1>',
                 '<ul>',
-                v_each($menu, fn($item) => [
-                    '<li>',
-                    sprintf('<a href="%s">', $item->href),
-                    $item->text,
-                    '</a>',
-                    '</li>',
-                ]),
+                new Enumeration(
+                    $menu,
+                    new Functional(fn($item) => [
+                        '<li>',
+                        sprintf('<a href="%s">', $item->href),
+                        $item->text,
+                        '</a>',
+                        '</li>',
+                    ])
+                ),
                 '</ul>',
             ],
             '</body>',
@@ -57,10 +65,12 @@ class HtmlRenderingTest extends TestCase
 
         $renderer = new Renderer(new RenderPipeline());
         $result = $renderer->render($document, (object)[]);
-        self::assertEquals(<<<HTML
+        self::assertEquals(
+            <<<HTML
 <html lang="en"><head><title>Test Page</title></head><body><h1>Test Page</h1><ul><li><a href="/">Home</a></li><li><a href="/my-account">My Account</a></li><li><a href="/about">About</a></li></ul></body></html>
 HTML,
-            $result);
+            $result
+        );
     }
 
     /**
@@ -75,11 +85,14 @@ HTML,
             'fast',
         ];
 
-        $renderable = new RenderableIterable([
+        $renderable = new Elements([
             '<ul>',
-            v_each_string($properties, fn($property) => [
-                "<li>$property</li>"
-            ]),
+            new StringEnumeration(
+                $properties,
+                new Functional(fn($property) => [
+                    "<li>$property</li>"
+                ])
+            ),
             '</ul>',
         ]);
 

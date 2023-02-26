@@ -15,7 +15,7 @@ class BasicRenderingTest extends TestCase
 {
     private function mockRenderable(iterable $elements): Renderable
     {
-        return new Renderable\RenderableIterable($elements);
+        return new Renderable\Elements($elements);
     }
 
     private function mockStringable(string $content)

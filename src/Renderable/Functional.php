@@ -11,7 +11,7 @@ use Closure;
  * @phpstan-import-type element from Renderable
  * @implements Renderable<object>
  */
-class RenderableClosure implements Renderable
+class Functional implements Renderable
 {
     private Closure $closure;
 
