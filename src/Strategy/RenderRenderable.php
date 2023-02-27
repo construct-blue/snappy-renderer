@@ -26,7 +26,15 @@ class RenderRenderable implements Strategy
     public function render($element, object $model, Renderer $renderer, NextStrategy $next): string
     {
         if ($element instanceof Renderable) {
-            return $renderer->render($element, $model);
+            ob_start();
+            try {
+                foreach ($element->render($model) as $item) {
+                    echo $renderer->render($item, $model);
+                }
+            } finally {
+                $result = ob_get_clean();
+            }
+            return $result;
         }
         return $next->continue($element, $model, $renderer);
     }

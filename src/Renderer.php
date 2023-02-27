@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace SnappyRenderer;
 
+/**
+ * @phpstan-import-type element from Renderable
+ */
 final class Renderer
 {
     private Strategy $strategy;
@@ -20,21 +23,13 @@ final class Renderer
 
     /**
      * @template T of object
-     * @param Renderable<T> $renderable
+     * @param element $element
      * @param object&T $model
      * @return string
      * @throws Exception\RenderException
      */
-    public function render(Renderable $renderable, object $model): string
+    public function render($element, object $model): string
     {
-        ob_start();
-        try {
-            foreach ($renderable->render($model) as $element) {
-                echo $this->strategy->render($element, $model, $this, $this->errorHandler);
-            }
-        } finally {
-            $result = ob_get_clean();
-        }
-        return $result;
+        return $this->strategy->render($element, $model, $this, $this->errorHandler);
     }
 }

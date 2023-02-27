@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace SnappyRenderer;
 
 /**
- * @phpstan-type element scalar|scalar[]|object|object[]
+ * @phpstan-type element self|self[]|scalar|scalar[]|object|object[]
  * @template T of object
  */
 interface Renderable
