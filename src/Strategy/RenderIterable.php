@@ -10,6 +10,7 @@ use SnappyRenderer\Renderable;
 use SnappyRenderer\Renderable\Elements;
 use SnappyRenderer\Strategy;
 use SnappyRenderer\Renderer;
+use Throwable;
 
 /**
  * @phpstan-import-type element from Renderable
@@ -27,7 +28,11 @@ class RenderIterable implements Strategy
     public function render($element, object $model, Renderer $renderer, NextStrategy $next): string
     {
         if (is_iterable($element)) {
-            return $renderer->render(new Elements($element), $model);
+            try {
+                return $renderer->render(new Elements($element), $model);
+            } catch (Throwable $throwable) {
+                throw RenderException::forThrowableInElement($throwable, $element);
+            }
         }
         return $next->continue($element, $model, $renderer);
     }

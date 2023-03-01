@@ -11,6 +11,7 @@ use SnappyRenderer\Renderable;
 use SnappyRenderer\Renderable\Functional;
 use SnappyRenderer\Renderer;
 use SnappyRenderer\Strategy;
+use Throwable;
 
 /**
  * @phpstan-import-type element from Renderable
@@ -28,7 +29,11 @@ class RenderClosure implements Strategy
     public function render($element, object $model, Renderer $renderer, NextStrategy $next): string
     {
         if ($element instanceof Closure) {
-            return $renderer->render(new Functional($element), $model);
+            try {
+                return $renderer->render(new Functional($element), $model);
+            } catch (Throwable $throwable) {
+                throw RenderException::forThrowableInElement($throwable, $element);
+            }
         }
         return $next->continue($element, $model, $renderer);
     }

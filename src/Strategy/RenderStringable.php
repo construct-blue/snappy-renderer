@@ -10,6 +10,7 @@ use SnappyRenderer\Renderable;
 use SnappyRenderer\Renderer;
 use SnappyRenderer\Strategy;
 use SnappyRenderer\Stringable;
+use Throwable;
 
 /**
  * @phpstan-import-type element from Renderable
@@ -27,7 +28,12 @@ class RenderStringable implements Strategy
     public function render($element, object $model, Renderer $renderer, NextStrategy $next): string
     {
         if ($this->isStringable($element)) {
-            return (string)$element;
+            try {
+                /** @var Stringable $element */
+                return $element->__toString();
+            } catch (Throwable $throwable) {
+                throw RenderException::forThrowableInElement($throwable, $element);
+            }
         }
         return $next->continue($element, $model, $renderer);
     }
