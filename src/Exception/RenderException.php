@@ -9,22 +9,30 @@ use Throwable;
 
 class RenderException extends Exception
 {
-    public const CODE_MAX_NESTING_LEVEL = 510;
-
     /**
-     * @param mixed $element
+     * @param mixed $view
      * @return RenderException
      */
-    public static function forInvalidElement($element): RenderException
+    public static function forInvalidView($view): RenderException
     {
         return new RenderException(
             sprintf(
-                'Element of type %s could not be rendered',
-                self::getType($element),
+                'View of type "%s" could not be rendered.',
+                self::getType($view),
             )
         );
     }
 
+    public static function forMaxNestingLevel($view, $level): RenderException
+    {
+        return new RenderException(
+            sprintf(
+                'Max nesting level of %s reached in view "%s".',
+                $level,
+                self::getType($view),
+            )
+        );
+    }
 
     private static function getType($element): string
     {

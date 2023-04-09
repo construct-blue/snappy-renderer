@@ -35,5 +35,5 @@ HTML;
 
 ```php
 $renderer = new \SnappyRenderer\Renderer();
-echo $renderer->render(new App(), (object)['name' => 'world'])
+echo $renderer->execute(new App(), (object)['name' => 'world'])
 ```
