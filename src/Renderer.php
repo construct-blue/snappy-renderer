@@ -19,7 +19,7 @@ final class Renderer implements Strategy
     }
 
     /**
-     * @param $view
+     * @param mixed $view
      * @return string
      * @throws RenderException
      */
@@ -55,7 +55,12 @@ final class Renderer implements Strategy
         return $this->level;
     }
 
-    private function assertLevel($view)
+    /**
+     * @param mixed $view
+     * @return void
+     * @throws RenderException
+     */
+    private function assertLevel($view): void
     {
         $this->level++;
         if ($this->getLevel() > $this->getMaxLevel()) {

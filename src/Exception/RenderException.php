@@ -23,7 +23,12 @@ class RenderException extends Exception
         );
     }
 
-    public static function forMaxNestingLevel($view, $level): RenderException
+    /**
+     * @param mixed $view
+     * @param int $level
+     * @return RenderException
+     */
+    public static function forMaxNestingLevel($view, int $level): RenderException
     {
         return new RenderException(
             sprintf(
@@ -45,15 +50,15 @@ class RenderException extends Exception
 
     /**
      * @param Throwable $throwable
-     * @param $element
+     * @param mixed $view
      * @return RenderException
      */
-    public static function forThrowableInElement(Throwable $throwable, $element): RenderException
+    public static function forThrowableInView(Throwable $throwable, $view): RenderException
     {
         if ($throwable instanceof self) {
             return $throwable;
         }
-        $type = self::getType($element);
+        $type = self::getType($view);
         $error = get_class($throwable);
         return new RenderException("$error in $type: " . $throwable->getMessage(), 0, $throwable);
     }

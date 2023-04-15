@@ -11,7 +11,7 @@ use SnappyRenderer\Strategy;
 class InvalidViewStrategy implements Strategy
 {
     /**
-     * @param $view
+     * @param mixed $view
      * @param Renderer $renderer
      * @return string
      * @throws RenderException

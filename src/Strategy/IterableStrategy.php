@@ -19,7 +19,7 @@ class IterableStrategy implements Strategy
     }
 
     /**
-     * @param $view
+     * @param mixed $view
      * @param Renderer $renderer
      * @return string
      * @throws RenderException
@@ -33,7 +33,7 @@ class IterableStrategy implements Strategy
                     echo $renderer->render($item);
                 }
             } catch (Throwable $throwable) {
-                throw RenderException::forThrowableInElement($throwable, $view);
+                throw RenderException::forThrowableInView($throwable, $view);
             } finally {
                 $result = ob_get_clean();
             }

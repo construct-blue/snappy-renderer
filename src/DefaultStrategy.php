@@ -30,6 +30,12 @@ class DefaultStrategy implements Strategy
         $this->strategy = new CaptureStrategy($renderStrategy);
     }
 
+    /**
+     * @param mixed $view
+     * @param Renderer $renderer
+     * @return string
+     * @throws Exception\RenderException
+     */
     public function execute($view, Renderer $renderer): string
     {
         return $this->strategy->execute($view, $renderer);

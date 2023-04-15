@@ -16,6 +16,11 @@ class StringStrategy implements Strategy
         $this->strategy = $strategy;
     }
 
+    /**
+     * @param mixed $view
+     * @param Renderer $renderer
+     * @return string
+     */
     public function execute($view, Renderer $renderer): string
     {
         if (is_string($view)) {

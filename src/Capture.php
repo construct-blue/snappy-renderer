@@ -7,8 +7,13 @@ namespace SnappyRenderer;
 class Capture
 {
     private string $code;
+    /** @var mixed */
     private $view;
 
+    /**
+     * @param string $code
+     * @param mixed $view
+     */
     public function __construct(string $code, $view)
     {
         $this->code = $code;
@@ -20,6 +25,9 @@ class Capture
         return $this->code;
     }
 
+    /**
+     * @return mixed
+     */
     public function getView()
     {
         return $this->view;
