@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SnappyRenderer;
 
+use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Strategy\CaptureStrategy;
 use SnappyRenderer\Strategy\ClosureStrategy;
 use SnappyRenderer\Strategy\InvalidViewStrategy;
@@ -34,7 +35,7 @@ class DefaultStrategy implements Strategy
      * @param mixed $view
      * @param Renderer $renderer
      * @return string
-     * @throws Exception\RenderException
+     * @throws RenderException
      */
     public function execute($view, Renderer $renderer): string
     {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SnappyRendererTest;
 
+use Generator;
 use SnappyRenderer\Capture;
 use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Renderable;
@@ -24,7 +25,7 @@ class RendererTest extends TestCase
         $this->renderer = new Renderer(new DefaultStrategy());
     }
 
-    public function contracts(): iterable
+    public function contracts(): Generator
     {
         yield 'Should render string.' => [self::HELLO_WORLD_STRING];
         yield 'Should render array of strings.' => [self::HELLO_WORLD_ARRAY];
@@ -38,7 +39,11 @@ class RendererTest extends TestCase
         ];
         yield 'Should render renderable objects.' => [
             new class implements Renderable {
-                public function render(Renderer $renderer): iterable
+                /**
+                 * @param Renderer $renderer
+                 * @return string[]
+                 */
+                public function render(Renderer $renderer): array
                 {
                     return RendererTest::HELLO_WORLD_ARRAY;
                 }
@@ -51,39 +56,52 @@ class RendererTest extends TestCase
 
     /**
      * @dataProvider contracts
+     * @param mixed $view
      * @return void
+     * @throws RenderException
      */
-    public function testContracts($view)
+    public function testContracts($view): void
     {
         $this->assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
 
-    public function testShouldThrowExceptionForInfiniteRenderLoops()
+    /**
+     * @throws RenderException
+     */
+    public function testShouldThrowExceptionForInfiniteRenderLoops(): void
     {
         $view = new class implements Renderable {
-            public function render(Renderer $renderer): iterable
+            public function render(Renderer $renderer): Generator
             {
                 yield new static;
             }
         };
-        self::expectExceptionObject(RenderException::forMaxNestingLevel($view, $this->renderer->getMaxLevel()));
+        self::expectExceptionObject(
+            RenderException::forMaxNestingLevel($view, $this->renderer->getMaxLevel())
+        );
         $this->renderer->render($view);
     }
 
-    public function testShouldResetLevel()
+    /**
+     * @throws RenderException
+     */
+    public function testShouldResetLevel(): void
     {
         self::assertEquals(0, $this->renderer->getLevel());
         $this->renderer->render(['', ['']]);
         self::assertEquals(0, $this->renderer->getLevel());
     }
 
-    public function testShouldReplaceCapturables()
+    /**
+     * @throws RenderException
+     */
+    public function testShouldReplaceCapturables(): void
     {
         $view = [
             'replace',
             [
-              'world!',
-              new Capture('replace', 'Hello ')
+                'world!',
+                new Capture('replace', 'Hello ')
             ],
         ];
 

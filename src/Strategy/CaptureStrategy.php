@@ -28,26 +28,37 @@ class CaptureStrategy implements Strategy
      */
     public function execute($view, Renderer $renderer): string
     {
-        if ($renderer->getLevel() === 1) {
-            $this->captures = [];
-        }
-
         if ($view instanceof Capture) {
             $this->captures[] = $view;
             return '';
         }
 
+        if ($renderer->getLevel() === 1) {
+            $this->captures = [];
+        }
+
         $result = $this->strategy->execute($view, $renderer);
 
         if ($renderer->getLevel() === 1) {
-            foreach ($this->captures as $capture) {
-                $result = str_replace(
-                    $capture->getCode(),
-                    $renderer->render($capture->getView()),
-                    $result
-                );
-            }
+            return $this->replacePlaceholders($result, $renderer);
         }
         return $result;
+    }
+
+    /**
+     * @param string $html
+     * @param Renderer $renderer
+     * @return string
+     * @throws RenderException
+     */
+    private function replacePlaceholders(string $html, Renderer $renderer): string
+    {
+        $placeholders = [];
+        $replacements = [];
+        foreach ($this->captures as $capture) {
+            $placeholders[] = $capture->getCode();
+            $replacements[] = $renderer->render($capture->getView());
+        }
+        return str_replace($placeholders, $replacements, $html);
     }
 }

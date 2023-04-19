@@ -25,7 +25,8 @@ final class Renderer implements Strategy
      */
     public function render($view): string
     {
-        return $this->execute($view, clone $this);
+        $clone = clone $this;
+        return $clone->execute($view, $clone);
     }
 
     /**
@@ -36,7 +37,7 @@ final class Renderer implements Strategy
      */
     public function execute($view, Renderer $renderer): string
     {
-        $renderer->assertLevel($view);
+        $this->assertLevel($view);
         return $this->strategy->execute($view, $renderer);
     }
 

@@ -11,6 +11,8 @@ use SnappyRenderer\Strategy;
 class InvalidViewStrategy implements Strategy
 {
     /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
      * @param mixed $view
      * @param Renderer $renderer
      * @return string

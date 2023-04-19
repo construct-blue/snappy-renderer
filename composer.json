@@ -27,11 +27,11 @@
   },
   "autoload-dev": {
     "psr-4": {
-      "SnappyRendererTest\\": "test"
+      "SnappyRendererTest\\": "tests"
     }
   },
   "scripts": {
-    "phpmd": "phpmd src ansi cleancode,codesize,controversial,design,naming,unusedcode",
+    "phpmd": "phpmd src ansi phpmd.xml",
     "phpstan": "phpstan analyse -c phpstan.neon"
   }
 }

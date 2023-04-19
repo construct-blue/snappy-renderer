@@ -39,11 +39,15 @@ class RenderException extends Exception
         );
     }
 
-    private static function getType($element): string
+    /**
+     * @param mixed $var
+     * @return string
+     */
+    private static function getType($var): string
     {
-        $type = gettype($element);
+        $type = gettype($var);
         if ($type === 'object') {
-            $type = get_class($element);
+            $type = get_class($var);
         }
         return $type;
     }
