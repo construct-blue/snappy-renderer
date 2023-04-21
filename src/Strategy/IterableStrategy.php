@@ -21,16 +21,17 @@ class IterableStrategy implements Strategy
     /**
      * @param mixed $view
      * @param Renderer $renderer
+     * @param mixed|null $data
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer): string
+    public function execute($view, Renderer $renderer, $data = null): string
     {
         if (is_iterable($view)) {
             ob_start();
             try {
-                foreach ($view as $item) {
-                    echo $renderer->render($item);
+                foreach ($view as $data => $item) {
+                    echo $renderer->render($item, $data);
                 }
             } catch (Throwable $throwable) {
                 throw RenderException::forThrowableInView($throwable, $view);
@@ -39,6 +40,6 @@ class IterableStrategy implements Strategy
             }
             return $result;
         }
-        return $this->strategy->execute($view, $renderer);
+        return $this->strategy->execute($view, $renderer, $data);
     }
 }

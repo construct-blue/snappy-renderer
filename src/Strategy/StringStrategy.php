@@ -19,13 +19,17 @@ class StringStrategy implements Strategy
     /**
      * @param mixed $view
      * @param Renderer $renderer
+     * @param mixed|null $data
      * @return string
      */
-    public function execute($view, Renderer $renderer): string
+    public function execute($view, Renderer $renderer, $data = null): string
     {
         if (is_string($view)) {
+            if (is_string($data)) {
+                return str_replace('{data}', $data, $view);
+            }
             return $view;
         }
-        return $this->strategy->execute($view, $renderer);
+        return $this->strategy->execute($view, $renderer, $data);
     }
 }

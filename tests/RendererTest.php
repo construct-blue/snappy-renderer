@@ -41,9 +41,10 @@ class RendererTest extends TestCase
             new class implements Renderable {
                 /**
                  * @param Renderer $renderer
+                 * @param mixed|null $data
                  * @return string[]
                  */
-                public function render(Renderer $renderer): array
+                public function render(Renderer $renderer, $data = null): array
                 {
                     return RendererTest::HELLO_WORLD_ARRAY;
                 }
@@ -71,7 +72,7 @@ class RendererTest extends TestCase
     public function testShouldThrowExceptionForInfiniteRenderLoops(): void
     {
         $view = new class implements Renderable {
-            public function render(Renderer $renderer): Generator
+            public function render(Renderer $renderer, $data = null): Generator
             {
                 yield new static;
             }

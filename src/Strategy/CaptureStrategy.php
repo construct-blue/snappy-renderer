@@ -23,10 +23,11 @@ class CaptureStrategy implements Strategy
     /**
      * @param mixed $view
      * @param Renderer $renderer
+     * @param mixed|null $data
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer): string
+    public function execute($view, Renderer $renderer, $data = null): string
     {
         if ($view instanceof Capture) {
             $this->captures[] = $view;
@@ -37,7 +38,7 @@ class CaptureStrategy implements Strategy
             $this->captures = [];
         }
 
-        $result = $this->strategy->execute($view, $renderer);
+        $result = $this->strategy->execute($view, $renderer, $data);
 
         if ($renderer->getLevel() === 1) {
             return $this->replacePlaceholders($result, $renderer);

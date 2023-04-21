@@ -21,14 +21,15 @@ class ClosureStrategy implements Strategy
     /**
      * @param mixed $view
      * @param Renderer $renderer
+     * @param mixed|null $data
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer): string
+    public function execute($view, Renderer $renderer, $data = null): string
     {
         if ($view instanceof Closure) {
-            return $renderer->render($view($renderer));
+            return $renderer->render($view($renderer, $data), $data);
         }
-        return $this->strategy->execute($view, $renderer);
+        return $this->strategy->execute($view, $renderer, $data);
     }
 }

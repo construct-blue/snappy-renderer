@@ -21,7 +21,7 @@ class CompletePageLayoutTest extends TestCase
         $this->assertHtmlFileEqualsHtmlString(__DIR__ . '/expected.html', $renderer->render($layout));
     }
 
-    public static function assertHtmlFileEqualsHtmlString(string $file, string $html, string $message = '')
+    public static function assertHtmlFileEqualsHtmlString(string $file, string $html, string $message = ''): void
     {
         $config = array(
             'indent' => false,
@@ -37,6 +37,6 @@ class CompletePageLayoutTest extends TestCase
         $serializedHtml = (string)$tidyHtml;
 
         $message = $message ?: "Failed asserting that the HTML file '{$file}' is equal to the HTML string.";
-        self::assertSame($serializedHtml, $serializedFile, $message);
+        self::assertSame($serializedFile, $serializedHtml, $message);
     }
 }

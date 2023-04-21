@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SnappyRenderer;
 
+use Closure;
 use SnappyRenderer\Exception\RenderException;
 
 final class Renderer implements Strategy
@@ -20,25 +21,50 @@ final class Renderer implements Strategy
 
     /**
      * @param mixed $view
+     * @param mixed|null $data
      * @return string
      * @throws RenderException
      */
-    public function render($view): string
+    public function render($view, $data = null): string
     {
         $clone = clone $this;
-        return $clone->execute($view, $clone);
+        return $clone->execute($view, $clone, $data);
     }
 
     /**
-     * @param $view
-     * @param Renderer $renderer
+     * @param mixed $view
+     * @param iterable<mixed> $items
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer): string
+    public function loop($view, iterable $items): string
+    {
+        return $this->render(new Loop($view), $items);
+    }
+
+    /**
+     * @param mixed $view
+     * @param Closure $predicate
+     * @param mixed $data
+     * @return string
+     * @throws RenderException
+     */
+    public function conditional($view, Closure $predicate, $data = null): string
+    {
+        return $this->render(new Conditional($view, $predicate), $data);
+    }
+
+    /**
+     * @param mixed $view
+     * @param Renderer $renderer
+     * @param mixed|null $data
+     * @return string
+     * @throws RenderException
+     */
+    public function execute($view, Renderer $renderer, $data = null): string
     {
         $this->assertLevel($view);
-        return $this->strategy->execute($view, $renderer);
+        return $this->strategy->execute($view, $renderer, $data);
     }
 
     public function getMaxLevel(): int

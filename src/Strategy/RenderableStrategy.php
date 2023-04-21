@@ -21,14 +21,15 @@ class RenderableStrategy implements Strategy
     /**
      * @param mixed $view
      * @param Renderer $renderer
+     * @param mixed|null $data
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer): string
+    public function execute($view, Renderer $renderer, $data = null): string
     {
         if ($view instanceof Renderable) {
-            return $renderer->render($view->render($renderer));
+            return $renderer->render($view->render($renderer, $data));
         }
-        return $this->strategy->execute($view, $renderer);
+        return $this->strategy->execute($view, $renderer, $data);
     }
 }
