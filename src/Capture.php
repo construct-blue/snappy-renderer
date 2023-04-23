@@ -6,23 +6,23 @@ namespace SnappyRenderer;
 
 class Capture
 {
-    private string $code;
+    private Placeholder $placeholder;
     /** @var mixed */
     private $view;
 
     /**
-     * @param string $code
+     * @param Placeholder $placeholder
      * @param mixed $view
      */
-    public function __construct(string $code, $view)
+    public function __construct(Placeholder $placeholder, $view)
     {
-        $this->code = $code;
+        $this->placeholder = $placeholder;
         $this->view = $view;
     }
 
-    public function getCode(): string
+    public function getPlaceholder(): Placeholder
     {
-        return $this->code;
+        return $this->placeholder;
     }
 
     /**

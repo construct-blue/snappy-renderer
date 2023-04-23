@@ -6,13 +6,20 @@ namespace SnappyRenderer\Strategy;
 
 use SnappyRenderer\Capture;
 use SnappyRenderer\Exception\RenderException;
+use SnappyRenderer\Placeholder;
 use SnappyRenderer\Renderer;
 use SnappyRenderer\Strategy;
 
 class CaptureStrategy implements Strategy
 {
-    /** @var Capture[] */
+    /** @var Placeholder[] */
+    private array $placeholders = [];
+
+    /**
+     * @var Capture[]
+     */
     private array $captures = [];
+
     private Strategy $strategy;
 
     public function __construct(Strategy $strategy)
@@ -29,13 +36,20 @@ class CaptureStrategy implements Strategy
      */
     public function execute($view, Renderer $renderer, $data = null): string
     {
+        if ($view instanceof Placeholder) {
+            if (isset($this->placeholders[$view->getCode()])) {
+                throw new RenderException(sprintf('Placeholder "%s" already in use.', $view->getCode()));
+            }
+            $this->placeholders[$view->getCode()] = $view;
+        }
+
         if ($view instanceof Capture) {
             $this->captures[] = $view;
             return '';
         }
 
         if ($renderer->getLevel() === 1) {
-            $this->captures = [];
+            $this->placeholders = [];
         }
 
         $result = $this->strategy->execute($view, $renderer, $data);
@@ -54,11 +68,20 @@ class CaptureStrategy implements Strategy
      */
     private function replacePlaceholders(string $html, Renderer $renderer): string
     {
+        foreach ($this->captures as $capture) {
+            if (!isset($this->placeholders[$capture->getPlaceholder()->getCode()])) {
+                throw new RenderException(
+                    sprintf('Placeholder "%s" not found.', $capture->getPlaceholder()->getCode())
+                );
+            }
+            $this->placeholders[$capture->getPlaceholder()->getCode()]->addReplacement($capture->getView());
+        }
+
         $placeholders = [];
         $replacements = [];
-        foreach ($this->captures as $capture) {
-            $placeholders[] = $capture->getCode();
-            $replacements[] = $renderer->render($capture->getView());
+        foreach ($this->placeholders as $placeholder) {
+            $placeholders[] = $renderer->render($placeholder->render($renderer));
+            $replacements[] = $renderer->render($placeholder->getReplacements());
         }
         return str_replace($placeholders, $replacements, $html);
     }

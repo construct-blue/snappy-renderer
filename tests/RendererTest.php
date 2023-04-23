@@ -7,6 +7,7 @@ namespace SnappyRendererTest;
 use Generator;
 use SnappyRenderer\Capture;
 use SnappyRenderer\Exception\RenderException;
+use SnappyRenderer\Placeholder;
 use SnappyRenderer\Renderable;
 use SnappyRenderer\Renderer;
 use PHPUnit\Framework\TestCase;
@@ -63,7 +64,7 @@ class RendererTest extends TestCase
      */
     public function testContracts($view): void
     {
-        $this->assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
+        self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
 
     /**
@@ -96,17 +97,40 @@ class RendererTest extends TestCase
     /**
      * @throws RenderException
      */
-    public function testShouldReplaceCapturables(): void
+    public function testShouldReplacePlaceholderWithCapture(): void
     {
         $view = [
-            'replace',
+            new Placeholder('replace'),
             [
                 'world!',
-                new Capture('replace', 'Hello ')
+                new Capture(new Placeholder('replace'), 'Hello ')
             ],
         ];
 
-        $this->assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
+        self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
+    }
+
+    public function testShouldAppendToCapture(): void
+    {
+        $view = [
+            new Placeholder('replace'),
+            [
+                new Capture(new Placeholder('replace'), 'Hello '),
+                new Capture(new Placeholder('replace'), 'world!')
+            ],
+        ];
+
+        self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
+    }
+
+    public function testShouldThrowExcetionWhenPlaceholderIsUsedMoreThenOnce(): void
+    {
+        self::expectExceptionObject(new RenderException('Placeholder "replace" already in use.'));
+        $view = [
+            new Placeholder('replace'),
+            new Placeholder('replace')
+        ];
+        $this->renderer->render($view);
     }
 
     public function testShouldRenderListOfItemsInLoop(): void
@@ -115,7 +139,7 @@ class RendererTest extends TestCase
             fn(Renderer $renderer, $item) => "<p>$item</p>",
             $items
         );
-        $this->assertEquals(
+        self::assertEquals(
             '<p>foo</p><p>bar</p><p>baz</p>',
             $this->renderer->render($view, ['foo', 'bar', 'baz'])
         );
@@ -131,7 +155,7 @@ class RendererTest extends TestCase
             ),
             $items
         );
-        $this->assertEquals(
+        self::assertEquals(
             '<p>foo</p>',
             $this->renderer->render($view, ['foo', 'bar', 'baz'])
         );

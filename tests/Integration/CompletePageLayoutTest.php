@@ -18,7 +18,7 @@ class CompletePageLayoutTest extends TestCase
 
         $layout = new Layout(new Body());
 
-        $this->assertHtmlFileEqualsHtmlString(__DIR__ . '/expected.html', $renderer->render($layout));
+        self::assertHtmlFileEqualsHtmlString(__DIR__ . '/expected.html', $renderer->render($layout));
     }
 
     public static function assertHtmlFileEqualsHtmlString(string $file, string $html, string $message = ''): void
