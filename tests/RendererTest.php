@@ -108,4 +108,32 @@ class RendererTest extends TestCase
 
         $this->assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
+
+    public function testShouldRenderListOfItemsInLoop(): void
+    {
+        $view = fn(Renderer $renderer, array $items) => $renderer->loop(
+            fn(Renderer $renderer, $item) => "<p>$item</p>",
+            $items
+        );
+        $this->assertEquals(
+            '<p>foo</p><p>bar</p><p>baz</p>',
+            $this->renderer->render($view, ['foo', 'bar', 'baz'])
+        );
+    }
+
+    public function testShouldRenderConditionally()
+    {
+        $view = fn(Renderer $renderer, array $items) => $renderer->loop(
+            fn(Renderer $renderer, $item) => $renderer->conditional(
+                "<p>%s</p>",
+                fn($item) => $item === 'foo',
+                $item
+            ),
+            $items
+        );
+        $this->assertEquals(
+            '<p>foo</p>',
+            $this->renderer->render($view, ['foo', 'bar', 'baz'])
+        );
+    }
 }

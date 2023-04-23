@@ -25,8 +25,8 @@ class StringStrategy implements Strategy
     public function execute($view, Renderer $renderer, $data = null): string
     {
         if (is_string($view)) {
-            if (is_string($data)) {
-                return str_replace('{data}', $data, $view);
+            if (is_scalar($data)) {
+                return sprintf($view, $data);
             }
             return $view;
         }
