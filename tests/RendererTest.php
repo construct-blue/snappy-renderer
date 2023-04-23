@@ -121,7 +121,7 @@ class RendererTest extends TestCase
         );
     }
 
-    public function testShouldRenderConditionally()
+    public function testShouldRenderConditionally(): void
     {
         $view = fn(Renderer $renderer, array $items) => $renderer->loop(
             fn(Renderer $renderer, $item) => $renderer->conditional(
