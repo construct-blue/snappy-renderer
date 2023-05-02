@@ -27,6 +27,8 @@ class StringStrategy implements Strategy
         if (is_string($view)) {
             if (is_scalar($data)) {
                 return sprintf($view, $data);
+            } elseif (is_array($data)) {
+                return sprintf($view, ...array_values($data));
             }
             return $view;
         }
