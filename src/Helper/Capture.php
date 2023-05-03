@@ -2,8 +2,11 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer;
+namespace SnappyRenderer\Helper;
 
+/**
+ * @internal
+ */
 class Capture
 {
     private Placeholder $placeholder;

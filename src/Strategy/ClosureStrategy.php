@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace SnappyRenderer\Strategy;
 
 use Closure;
-
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
 use SnappyRenderer\Exception\RenderException;
+use SnappyRenderer\Helper\Arguments;
 use SnappyRenderer\Renderer;
 use SnappyRenderer\Strategy;
 use SplObjectStorage;
@@ -50,23 +50,23 @@ class ClosureStrategy implements Strategy
     public function execute($view, Renderer $renderer, $data = null): string
     {
         if ($view instanceof Closure) {
-            $params = [];
+            $args = [];
             try {
                 foreach ($this->getReflection($view)->getParameters() as $parameter) {
                     $type = $parameter->getType();
                     if ($type instanceof ReflectionNamedType && $type->getName() === Renderer::class) {
-                        $params[] = $renderer;
-                    } elseif (is_array($data) && isset($data[$parameter->getName()])) {
-                        $params[] = $data[$parameter->getName()];
+                        $args[] = $renderer;
+                    } elseif ($data instanceof Arguments) {
+                        $args[] = $data[$parameter->getName()] ?? null;
                     } else {
-                        $params[] = $data;
+                        $args[] = $data;
                     }
                 }
             } catch (ReflectionException $exception) {
-                RenderException::forThrowableInView($exception, $view);
+                throw RenderException::forThrowableInView($exception, $view);
             }
 
-            return $renderer->render($view(...$params), $data);
+            return $renderer->render($view(...$args), $data);
         }
         return $this->strategy->execute($view, $renderer, $data);
     }

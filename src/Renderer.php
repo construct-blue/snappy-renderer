@@ -6,6 +6,12 @@ namespace SnappyRenderer;
 
 use Closure;
 use SnappyRenderer\Exception\RenderException;
+use SnappyRenderer\Helper\Arguments;
+use SnappyRenderer\Helper\Capture;
+use SnappyRenderer\Helper\Conditional;
+use SnappyRenderer\Helper\Loop;
+use SnappyRenderer\Helper\Placeholder;
+use Throwable;
 
 final class Renderer implements Strategy
 {
@@ -13,10 +19,10 @@ final class Renderer implements Strategy
     private int $maxLevel = 0;
     private int $level = 0;
 
-    public function __construct(Strategy $strategy)
+    public function __construct(Strategy $strategy = null)
     {
-        $this->strategy = $strategy;
-        $this->setMaxLevel(1000);
+        $this->strategy = $strategy ?? new DefaultStrategy();
+        $this->setMaxLevel(256);
     }
 
     /**
@@ -27,13 +33,17 @@ final class Renderer implements Strategy
      */
     public function render($view, $data = null): string
     {
-        $clone = clone $this;
-        return $clone->execute($view, $clone, $data);
+        try {
+            $clone = clone $this;
+            return $clone->execute($view, $clone, $data);
+        } catch (Throwable $throwable) {
+            throw RenderException::forThrowableInView($throwable, $view);
+        }
     }
 
     /**
      * @param mixed $view
-     * @param iterable<mixed> $items
+     * @param iterable<int, mixed> $items
      * @return string
      * @throws RenderException
      */
@@ -52,6 +62,31 @@ final class Renderer implements Strategy
     public function conditional($view, Closure $predicate, $data = null): string
     {
         return $this->render(new Conditional($view, $predicate), $data);
+    }
+
+    /**
+     * @param string $placeholder
+     * @param mixed $view
+     * @return string
+     * @throws RenderException
+     */
+    public function capture(string $placeholder, $view): string
+    {
+        return $this->render(new Capture(new Placeholder($placeholder), $view));
+    }
+
+    public function placeholder(string $code): string
+    {
+        return $this->render(new Placeholder($code));
+    }
+
+    /**
+     * @param array<string, mixed> $args
+     * @return Arguments
+     */
+    public function arguments(array $args): Arguments
+    {
+        return new Arguments($args);
     }
 
     /**

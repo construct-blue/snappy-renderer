@@ -2,10 +2,16 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer;
+namespace SnappyRenderer\Helper;
 
 use Closure;
+use SnappyRenderer\Exception;
+use SnappyRenderer\Renderable;
+use SnappyRenderer\Renderer;
 
+/**
+ * @internal
+ */
 class Conditional implements Renderable
 {
     /** @var mixed */
@@ -25,7 +31,7 @@ class Conditional implements Renderable
     /**
      * @param Renderer $renderer
      * @param mixed|null $data
-     * @return iterable<mixed>
+     * @return iterable<mixed, mixed>
      * @throws Exception\RenderException
      */
     public function render(Renderer $renderer, $data = null): iterable

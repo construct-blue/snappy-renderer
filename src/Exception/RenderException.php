@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace SnappyRenderer\Exception;
 
+use Closure;
 use Exception;
+use ReflectionFunction;
 use Throwable;
 
 class RenderException extends Exception
@@ -40,19 +42,6 @@ class RenderException extends Exception
     }
 
     /**
-     * @param mixed $var
-     * @return string
-     */
-    private static function getType($var): string
-    {
-        $type = gettype($var);
-        if ($type === 'object') {
-            $type = get_class($var);
-        }
-        return $type;
-    }
-
-    /**
      * @param Throwable $throwable
      * @param mixed $view
      * @return RenderException
@@ -65,5 +54,28 @@ class RenderException extends Exception
         $type = self::getType($view);
         $error = get_class($throwable);
         return new RenderException("$error in $type: " . $throwable->getMessage(), 0, $throwable);
+    }
+
+    /**
+     * @param mixed $var
+     * @return string
+     */
+    private static function getType($var): string
+    {
+        $type = gettype($var);
+        if ($type === 'object') {
+            $type = get_class($var);
+        }
+
+        if ($var instanceof Closure) {
+            try {
+                $reflection = new ReflectionFunction($var);
+                $type .= sprintf(' %s:%s', $reflection->getFileName(), $reflection->getStartLine());
+            } catch (\ReflectionException $e) {
+                $type .= ' ' . $e->getMessage();
+            }
+        }
+
+        return $type;
     }
 }

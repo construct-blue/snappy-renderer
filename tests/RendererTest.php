@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace SnappyRendererTest;
 
 use Generator;
-use SnappyRenderer\Capture;
-use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Placeholder;
-use SnappyRenderer\Renderable;
-use SnappyRenderer\Renderer;
 use PHPUnit\Framework\TestCase;
 use SnappyRenderer\DefaultStrategy;
+use SnappyRenderer\Exception\RenderException;
+use SnappyRenderer\Helper\Arguments;
+use SnappyRenderer\Helper\Capture;
+use SnappyRenderer\Helper\Placeholder;
+use SnappyRenderer\Renderable;
+use SnappyRenderer\Renderer;
+use Throwable;
 
 class RendererTest extends TestCase
 {
@@ -26,7 +28,7 @@ class RendererTest extends TestCase
         $this->renderer = new Renderer(new DefaultStrategy());
     }
 
-    public function contracts(): Generator
+    public function dataProvider_ViewTypes(): Generator
     {
         yield 'Should render string.' => [self::HELLO_WORLD_STRING];
         yield 'Should render array of strings.' => [self::HELLO_WORLD_ARRAY];
@@ -57,12 +59,12 @@ class RendererTest extends TestCase
     }
 
     /**
-     * @dataProvider contracts
+     * @dataProvider dataProvider_ViewTypes
      * @param mixed $view
      * @return void
      * @throws RenderException
      */
-    public function testContracts($view): void
+    public function testShouldRenderDifferentViewTypes($view): void
     {
         self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
@@ -72,10 +74,11 @@ class RendererTest extends TestCase
      */
     public function testShouldThrowExceptionForInfiniteRenderLoops(): void
     {
+        self::iniSet('xdebug.max_nesting_level', '5000');
         $view = new class implements Renderable {
             public function render(Renderer $renderer, $data = null): Generator
             {
-                yield new static;
+                yield new static();
             }
         };
         self::expectExceptionObject(
@@ -123,6 +126,30 @@ class RendererTest extends TestCase
         self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
 
+    public function testShouldResetCaptures(): void
+    {
+        $view = [
+            new Placeholder('replace'),
+            [
+                new Capture(new Placeholder('replace'), 'Hello '),
+                new Capture(new Placeholder('replace'), 'world!')
+            ],
+        ];
+
+        self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
+
+        $view2 = [
+            new Placeholder('replace'),
+            [
+                new Capture(new Placeholder('replace'), 'Hello '),
+                new Capture(new Placeholder('replace'), 'world!')
+            ],
+        ];
+
+        self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view2));
+    }
+
+
     public function testShouldThrowExcetionWhenPlaceholderIsUsedMoreThenOnce(): void
     {
         self::expectExceptionObject(new RenderException('Placeholder "replace" already in use.'));
@@ -133,22 +160,36 @@ class RendererTest extends TestCase
         $this->renderer->render($view);
     }
 
+
+    public function testShouldConvertThrowablesToRenderException(): void
+    {
+        // @phpstan-ignore-next-line
+        $view = fn() => count(null);
+        try {
+            $x = $view();
+        } catch (Throwable $throwable) {
+            self::expectExceptionObject(RenderException::forThrowableInView($throwable, $view));
+        }
+
+        $this->renderer->render($view);
+    }
+
     public function testShouldRenderListOfItemsInLoop(): void
     {
         $view = fn(Renderer $renderer, array $items) => $renderer->loop(
-            fn(Renderer $renderer, $item) => "<p>$item</p>",
+            fn(Renderer $renderer, string $item) => "<p>$item</p>",
             $items
         );
         self::assertEquals(
             '<p>foo</p><p>bar</p><p>baz</p>',
-            $this->renderer->render($view, ['foo', 'bar', 'baz'])
+            $this->renderer->render($view, new Arguments(['items' => ['foo', 'bar', 'baz']]))
         );
     }
 
     public function testShouldRenderConditionally(): void
     {
         $view = fn(Renderer $renderer, array $items) => $renderer->loop(
-            fn(Renderer $renderer, $item) => $renderer->conditional(
+            fn(Renderer $renderer, string $item) => $renderer->conditional(
                 "<p>%s</p>",
                 fn($item) => $item === 'foo',
                 $item
@@ -157,7 +198,22 @@ class RendererTest extends TestCase
         );
         self::assertEquals(
             '<p>foo</p>',
-            $this->renderer->render($view, ['foo', 'bar', 'baz'])
+            $this->renderer->render($view, new Arguments(['items' => ['foo', 'bar', 'baz']]))
         );
+    }
+
+    public function testShouldPassArgumentsToClosureByName(): void
+    {
+        $view = fn(string $name, string $greeting) => "$greeting $name!";
+        self::assertEquals(
+            self::HELLO_WORLD_STRING,
+            $this->renderer->render($view, new Arguments(['greeting' => 'Hello', 'name' => 'world']))
+        );
+    }
+
+    public function testShouldFormatStrings(): void
+    {
+        $this->assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render('Hello %s!', 'world'));
+        $this->assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render('%s %s!', ['Hello', 'world']));
     }
 }

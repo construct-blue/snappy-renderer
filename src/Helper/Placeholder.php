@@ -2,8 +2,15 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer;
+namespace SnappyRenderer\Helper;
 
+use SnappyRenderer\Renderable;
+use SnappyRenderer\Renderer;
+
+
+/**
+ * @internal
+ */
 class Placeholder implements Renderable
 {
     private string $code;
@@ -49,7 +56,7 @@ class Placeholder implements Renderable
      *
      * @param Renderer $renderer
      * @param $data
-     * @return iterable<mixed>
+     * @return iterable<mixed, mixed>
      */
     public function render(Renderer $renderer, $data = null): iterable
     {

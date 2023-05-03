@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace SnappyRenderer\Strategy;
 
-use SnappyRenderer\Capture;
 use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Placeholder;
+use SnappyRenderer\Helper\Capture;
+use SnappyRenderer\Helper\Placeholder;
 use SnappyRenderer\Renderer;
 use SnappyRenderer\Strategy;
 
@@ -36,6 +36,11 @@ class CaptureStrategy implements Strategy
      */
     public function execute($view, Renderer $renderer, $data = null): string
     {
+        if ($renderer->getLevel() === 1) {
+            $this->placeholders = [];
+            $this->captures = [];
+        }
+
         if ($view instanceof Placeholder) {
             if (isset($this->placeholders[$view->getCode()])) {
                 throw new RenderException(sprintf('Placeholder "%s" already in use.', $view->getCode()));
@@ -46,10 +51,6 @@ class CaptureStrategy implements Strategy
         if ($view instanceof Capture) {
             $this->captures[] = $view;
             return '';
-        }
-
-        if ($renderer->getLevel() === 1) {
-            $this->placeholders = [];
         }
 
         $result = $this->strategy->execute($view, $renderer, $data);

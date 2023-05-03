@@ -30,8 +30,8 @@ class IterableStrategy implements Strategy
         if (is_iterable($view)) {
             ob_start();
             try {
-                foreach ($view as $data => $item) {
-                    echo $renderer->render($item, $data);
+                foreach ($view as $itemData => $item) {
+                    echo $renderer->render($item, $itemData);
                 }
             } catch (Throwable $throwable) {
                 throw RenderException::forThrowableInView($throwable, $view);

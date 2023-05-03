@@ -9,7 +9,7 @@ interface Renderable
     /**
      * @param Renderer $renderer
      * @param mixed|null $data
-     * @return iterable<mixed>
+     * @return iterable<mixed, mixed>
      */
     public function render(Renderer $renderer, $data = null): iterable;
 }

@@ -2,8 +2,14 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer;
+namespace SnappyRenderer\Helper;
 
+use SnappyRenderer\Renderable;
+use SnappyRenderer\Renderer;
+
+/**
+ * @internal
+ */
 class Loop implements Renderable
 {
     /** @var mixed */

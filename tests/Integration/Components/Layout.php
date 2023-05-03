@@ -24,7 +24,7 @@ class Layout implements Renderable
     /**
      * @param Renderer $renderer
      * @param mixed|null $data
-     * @return iterable<mixed>
+     * @return iterable<mixed, mixed>
      * @throws RenderException
      */
     public function render(Renderer $renderer, $data = null): iterable
