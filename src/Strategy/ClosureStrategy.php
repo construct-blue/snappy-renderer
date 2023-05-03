@@ -65,8 +65,7 @@ class ClosureStrategy implements Strategy
             } catch (ReflectionException $exception) {
                 throw RenderException::forThrowableInView($exception, $view);
             }
-
-            return $renderer->render($view(...$args), $data);
+            return (new StringStrategy($renderer))->execute($view(...$args), $renderer, $data);
         }
         return $this->strategy->execute($view, $renderer, $data);
     }

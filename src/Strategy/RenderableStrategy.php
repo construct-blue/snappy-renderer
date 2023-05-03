@@ -28,7 +28,11 @@ class RenderableStrategy implements Strategy
     public function execute($view, Renderer $renderer, $data = null): string
     {
         if ($view instanceof Renderable) {
-            return $renderer->render($view->render($renderer, $data));
+            return (new IterableStrategy($renderer))->execute(
+                $view->render($renderer, $data),
+                $renderer,
+                $data
+            );
         }
         return $this->strategy->execute($view, $renderer, $data);
     }

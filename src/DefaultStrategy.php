@@ -19,9 +19,9 @@ class DefaultStrategy implements Strategy
     public function __construct()
     {
         $renderStrategy = new StringStrategy(
-            new IterableStrategy(
+            new ClosureStrategy(
                 new RenderableStrategy(
-                    new ClosureStrategy(
+                    new IterableStrategy(
                         new InvalidViewStrategy()
                     )
                 )
