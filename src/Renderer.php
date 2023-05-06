@@ -49,7 +49,7 @@ final class Renderer implements Strategy
      */
     public function loop($view, iterable $items): string
     {
-        return $this->render(new Loop($view), $items);
+        return $this->render(new Loop($view, $items));
     }
 
     /**
@@ -87,6 +87,16 @@ final class Renderer implements Strategy
     public function arguments(array $args): Arguments
     {
         return new Arguments($args);
+    }
+
+
+    /**
+     * @param array<string, mixed> $args
+     * @return Arguments
+     */
+    public function args(array $args): Arguments
+    {
+        return $this->arguments($args);
     }
 
     /**

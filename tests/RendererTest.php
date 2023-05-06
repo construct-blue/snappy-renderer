@@ -261,10 +261,32 @@ p {
 CSS;
 
 
+        $presidents = [
+            [
+                'id' => 1,
+                'name' => 'Barack Obama',
+            ],
+            [
+                'id' => 2,
+                'name' => 'Donald Trump',
+            ],
+            [
+                'id' => 3,
+                'name' => 'Joe Biden',
+            ],
+        ];
+
+        $personList = fn(Renderer $r) => <<<HTML
+<ul>
+    {$r->loop(fn($data) => "<li>{$data['id']}: {$data['name']}</li>", $presidents)}
+</ul>
+HTML;
+
         $body = fn(Renderer $r) => <<<HTML
 {$r->capture('css', $css)}
 <h1>Hello world!</h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+{$r->render($personList)}
 HTML;
 
         $result = $this->renderer->render(
@@ -302,6 +324,9 @@ HTML;
     
 <h1>Hello world!</h1>
 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+<ul>
+    <li>1: Barack Obama</li><li>2: Donald Trump</li><li>3: Joe Biden</li>
+</ul>
 </body>
 </html>
 HTML;

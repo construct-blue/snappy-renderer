@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace SnappyRenderer\Helper;
 
+use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Renderable;
 use SnappyRenderer\Renderer;
 
@@ -15,18 +16,31 @@ class Loop implements Renderable
     /** @var mixed */
     private $view;
 
+    /** @var iterable<int, mixed> */
+    private iterable $items;
+
     /**
      * @param mixed $view
+     * @param iterable<int, mixed> $items
      */
-    public function __construct($view)
+    public function __construct($view, iterable $items)
     {
         $this->view = $view;
+        $this->items = $items;
     }
 
+    /**
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     *
+     * @param Renderer $renderer
+     * @param $data
+     * @return iterable<mixed, mixed>
+     * @throws RenderException
+     */
     public function render(Renderer $renderer, $data = null): iterable
     {
-        foreach ($data as $datum) {
-            yield $renderer->render($this->view, $datum);
+        foreach ($this->items as $item) {
+            yield $renderer->render($this->view, $item);
         }
     }
 }
