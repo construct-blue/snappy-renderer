@@ -53,15 +53,16 @@ class ClosureStrategy implements Strategy
             $args = [];
             try {
                 foreach ($this->getReflection($view)->getParameters() as $parameter) {
+                    $position = $parameter->getPosition();
+                    $args[$position] = $data;
                     $type = $parameter->getType();
                     if ($type instanceof ReflectionNamedType && $type->getName() === Renderer::class) {
-                        $args[] = $renderer;
+                        $args[$position] = $renderer;
                     } elseif ($data instanceof Arguments) {
-                        $args[] = $data[$parameter->getName()] ?? null;
-                    } else {
-                        $args[] = $data;
+                        $args[$position] = $data[$parameter->getName()] ?? null;
                     }
                 }
+                ksort($args, SORT_NUMERIC);
             } catch (ReflectionException $exception) {
                 throw RenderException::forThrowableInView($exception, $view);
             }

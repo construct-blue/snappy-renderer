@@ -13,6 +13,7 @@ use SnappyRenderer\Helper\Capture;
 use SnappyRenderer\Helper\Placeholder;
 use SnappyRenderer\Renderable;
 use SnappyRenderer\Renderer;
+use SplObjectStorage;
 use Throwable;
 
 class RendererTest extends TestCase
@@ -190,7 +191,7 @@ class RendererTest extends TestCase
     {
         $view = fn(Renderer $renderer, array $items) => $renderer->loop(
             fn(Renderer $renderer, string $item) => $renderer->conditional(
-                "<p>%s</p>",
+                "<p>$item</p>",
                 fn($item) => $item === 'foo',
                 $item
             ),
@@ -202,7 +203,7 @@ class RendererTest extends TestCase
         );
     }
 
-    public function testShouldPassArgumentsToClosureByName(): void
+    public function testShouldPassArgumentsToClosure(): void
     {
         $view = fn(string $name, string $greeting) => "$greeting $name!";
         self::assertEquals(
@@ -211,9 +212,102 @@ class RendererTest extends TestCase
         );
     }
 
-    public function testShouldFormatStrings(): void
+    public function testShouldPassIteratorKeyAsData(): void
     {
-        $this->assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render('Hello %s!', 'world'));
-        $this->assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render('%s %s!', ['Hello', 'world']));
+        $view = [
+            'world' => fn(string $name) => "Hello $name!"
+        ];
+        self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
+
+    public function testShouldPassIteratorKeyAsArgumentsToClosure(): void
+    {
+        $view = fn() => yield new Arguments(['greeting' => 'Hello', 'name' => 'world'])
+        => fn(string $name, string $greeting) => "$greeting $name!";
+        self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
+    }
+
+    public function testShouldRenderExamplePage(): void
+    {
+        $layout = fn(Renderer $r, string $title, string $language, $body) => <<<HTML
+<html lang="$language">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>$title</title>
+    <style>
+        *, *:before, *:after {
+            box-sizing: border-box;
+        }
+        html, body {
+            padding: 0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        {$r->placeholder('css')}
+    </style>
+</head>
+<body>
+    {$r->render($body)}
+</body>
+</html>
+HTML;
+
+        $css = <<<CSS
+p {
+    padding: 1rem;
+    border: 1px solid black;
+}
+CSS;
+
+
+        $body = fn(Renderer $r) => <<<HTML
+{$r->capture('css', $css)}
+<h1>Hello world!</h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+HTML;
+
+        $result = $this->renderer->render(
+            $layout,
+            new Arguments([
+                'language' => 'en',
+                'title' => 'Hello world!',
+                'body' => $body,
+            ])
+        );
+
+        $expected = <<<HTML
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Hello world!</title>
+    <style>
+        *, *:before, *:after {
+            box-sizing: border-box;
+        }
+        html, body {
+            padding: 0;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        p {
+    padding: 1rem;
+    border: 1px solid black;
+}
+    </style>
+</head>
+<body>
+    
+<h1>Hello world!</h1>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+</body>
+</html>
+HTML;
+        self::assertEquals($expected, $result);
+    }
+
+
 }

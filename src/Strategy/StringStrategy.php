@@ -25,11 +25,6 @@ class StringStrategy implements Strategy
     public function execute($view, Renderer $renderer, $data = null): string
     {
         if (is_string($view)) {
-            if (is_scalar($data)) {
-                return sprintf($view, $data);
-            } elseif (is_array($data)) {
-                return sprintf($view, ...array_values($data));
-            }
             return $view;
         }
         return $this->strategy->execute($view, $renderer, $data);
