@@ -13,7 +13,6 @@ use SnappyRenderer\Helper\Capture;
 use SnappyRenderer\Helper\Placeholder;
 use SnappyRenderer\Renderable;
 use SnappyRenderer\Renderer;
-use SplObjectStorage;
 use Throwable;
 
 class RendererTest extends TestCase
@@ -151,7 +150,7 @@ class RendererTest extends TestCase
     }
 
 
-    public function testShouldThrowExcetionWhenPlaceholderIsUsedMoreThenOnce(): void
+    public function testShouldThrowExceptionWhenPlaceholderIsUsedMoreThenOnce(): void
     {
         self::expectExceptionObject(new RenderException('Placeholder "replace" already in use.'));
         $view = [
