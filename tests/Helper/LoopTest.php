@@ -11,28 +11,26 @@ use SnappyRenderer\Renderer;
 class LoopTest extends TestCase
 {
     /**
-     * @SuppressWarnings (PHPMD)
-     *
      * @throws RenderException
      */
     public function testShouldRenderViewForEachDataItem(): void
     {
         $presidents = [
             [
-                'id' => 1,
+                'idNumber' => 1,
                 'name' => 'Barack Obama',
             ],
             [
-                'id' => 2,
+                'idNumber' => 2,
                 'name' => 'Donald Trump',
             ],
             [
-                'id' => 3,
+                'idNumber' => 3,
                 'name' => 'Joe Biden',
             ],
         ];
 
-        $view = fn(int $id, string $name) => "$id: $name\n";
+        $view = fn(int $idNumber, string $name) => "$idNumber: $name\n";
 
         $loop = new Loop($view, new ArgumentsList($presidents));
 
