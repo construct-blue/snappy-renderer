@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace SnappyRenderer;
 
 abstract class AbstractStrategy implements Strategy
