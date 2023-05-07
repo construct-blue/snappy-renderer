@@ -36,7 +36,7 @@ final class Conditional implements Renderable
      */
     public function render(Renderer $renderer, $data = null): iterable
     {
-        if (($this->predicate)($data)) {
+        if (($this->predicate)($data) === true) {
             yield $renderer->render($this->view, $data);
         }
     }
