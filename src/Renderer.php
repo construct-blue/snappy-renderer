@@ -19,10 +19,10 @@ final class Renderer implements Strategy
     private int $maxLevel = 0;
     private int $level = 0;
 
-    public function __construct(Strategy $strategy = null)
+    public function __construct(Strategy $strategy = null, int $maxLevel = 256)
     {
-        $this->strategy = $strategy ?? new DefaultStrategy();
-        $this->setMaxLevel(256);
+        $this->strategy = $strategy ?? (new StrategyFactory())->createDefault();
+        $this->setMaxLevel($maxLevel);
     }
 
     /**
@@ -106,7 +106,7 @@ final class Renderer implements Strategy
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer, $data = null): string
+    public function execute($view, Renderer $renderer, $data): string
     {
         $this->assertLevel($view);
         return $this->strategy->execute($view, $renderer, $data);

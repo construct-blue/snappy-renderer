@@ -11,7 +11,7 @@ use SnappyRenderer\Renderer;
 /**
  * @internal
  */
-class Placeholder implements Renderable
+final class Placeholder implements Renderable
 {
     private string $code;
 

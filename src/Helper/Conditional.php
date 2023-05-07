@@ -12,7 +12,7 @@ use SnappyRenderer\Renderer;
 /**
  * @internal
  */
-class Conditional implements Renderable
+final class Conditional implements Renderable
 {
     /** @var mixed */
     private $view;

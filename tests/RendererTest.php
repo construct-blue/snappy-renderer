@@ -6,7 +6,6 @@ namespace SnappyRendererTest;
 
 use Generator;
 use PHPUnit\Framework\TestCase;
-use SnappyRenderer\DefaultStrategy;
 use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Helper\Arguments;
 use SnappyRenderer\Helper\Capture;
@@ -15,7 +14,7 @@ use SnappyRenderer\Renderable;
 use SnappyRenderer\Renderer;
 use Throwable;
 
-class RendererTest extends TestCase
+final class RendererTest extends TestCase
 {
     private Renderer $renderer;
 
@@ -25,7 +24,7 @@ class RendererTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->renderer = new Renderer(new DefaultStrategy());
+        $this->renderer = new Renderer();
     }
 
     public function dataProvider_ViewTypes(): Generator

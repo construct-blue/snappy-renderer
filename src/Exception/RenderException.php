@@ -6,10 +6,11 @@ namespace SnappyRenderer\Exception;
 
 use Closure;
 use Exception;
+use ReflectionException;
 use ReflectionFunction;
 use Throwable;
 
-class RenderException extends Exception
+final class RenderException extends Exception
 {
     /**
      * @param mixed $view
@@ -71,7 +72,7 @@ class RenderException extends Exception
             try {
                 $reflection = new ReflectionFunction($var);
                 $type .= sprintf(' %s:%s', $reflection->getFileName(), $reflection->getStartLine());
-            } catch (\ReflectionException $e) {
+            } catch (ReflectionException $e) {
                 $type .= ' ' . $e->getMessage();
             }
         }

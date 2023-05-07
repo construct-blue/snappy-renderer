@@ -8,6 +8,6 @@ use ArrayObject;
  * @internal
  * @extends ArrayObject<string, mixed>
  */
-class Arguments extends ArrayObject
+final class Arguments extends ArrayObject
 {
 }

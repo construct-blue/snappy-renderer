@@ -4,29 +4,22 @@ declare(strict_types=1);
 
 namespace SnappyRenderer\Strategy;
 
+use SnappyRenderer\AbstractStrategy;
 use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy;
 
-class StringStrategy implements Strategy
+final class StringStrategy extends AbstractStrategy
 {
-    private Strategy $strategy;
-
-    public function __construct(Strategy $strategy)
-    {
-        $this->strategy = $strategy;
-    }
-
     /**
      * @param mixed $view
      * @param Renderer $renderer
      * @param mixed|null $data
      * @return string
      */
-    public function execute($view, Renderer $renderer, $data = null): string
+    public function execute($view, Renderer $renderer, $data): string
     {
         if (is_string($view)) {
             return $view;
         }
-        return $this->strategy->execute($view, $renderer, $data);
+        return $this->next($view, $renderer, $data);
     }
 }

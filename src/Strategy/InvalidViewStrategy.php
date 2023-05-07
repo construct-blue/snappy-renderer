@@ -8,7 +8,7 @@ use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Renderer;
 use SnappyRenderer\Strategy;
 
-class InvalidViewStrategy implements Strategy
+final class InvalidViewStrategy implements Strategy
 {
     /**
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
@@ -19,7 +19,7 @@ class InvalidViewStrategy implements Strategy
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer, $data = null): string
+    public function execute($view, Renderer $renderer, $data): string
     {
         throw RenderException::forInvalidView($view);
     }

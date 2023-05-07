@@ -8,21 +8,21 @@ use Closure;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
+use SnappyRenderer\AbstractStrategy;
 use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Helper\Arguments;
 use SnappyRenderer\Renderer;
 use SnappyRenderer\Strategy;
 use SplObjectStorage;
 
-class ClosureStrategy implements Strategy
+final class ClosureStrategy extends AbstractStrategy
 {
     /** @var SplObjectStorage<Closure, ReflectionFunction> */
     private SplObjectStorage $storage;
-    private Strategy $strategy;
 
     public function __construct(Strategy $strategy)
     {
-        $this->strategy = $strategy;
+        parent::__construct($strategy);
         $this->storage = new SplObjectStorage();
     }
 
@@ -47,7 +47,7 @@ class ClosureStrategy implements Strategy
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer, $data = null): string
+    public function execute($view, Renderer $renderer, $data): string
     {
         if ($view instanceof Closure) {
             $args = [];
@@ -68,6 +68,6 @@ class ClosureStrategy implements Strategy
             }
             return (new StringStrategy($renderer))->execute($view(...$args), $renderer, $data);
         }
-        return $this->strategy->execute($view, $renderer, $data);
+        return $this->next($view, $renderer, $data);
     }
 }

@@ -4,20 +4,13 @@ declare(strict_types=1);
 
 namespace SnappyRenderer\Strategy;
 
+use SnappyRenderer\AbstractStrategy;
 use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy;
 use Throwable;
 
-class IterableStrategy implements Strategy
+final class IterableStrategy extends AbstractStrategy
 {
-    private Strategy $strategy;
-
-    public function __construct(Strategy $strategy)
-    {
-        $this->strategy = $strategy;
-    }
-
     /**
      * @param mixed $view
      * @param Renderer $renderer
@@ -25,7 +18,7 @@ class IterableStrategy implements Strategy
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer, $data = null): string
+    public function execute($view, Renderer $renderer, $data): string
     {
         if (is_iterable($view)) {
             ob_start();
@@ -40,6 +33,6 @@ class IterableStrategy implements Strategy
             }
             return $result;
         }
-        return $this->strategy->execute($view, $renderer, $data);
+        return $this->next($view, $renderer, $data);
     }
 }

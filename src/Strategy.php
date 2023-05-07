@@ -12,5 +12,5 @@ interface Strategy
      * @param mixed|null $data
      * @return string
      */
-    public function execute($view, Renderer $renderer, $data = null): string;
+    public function execute($view, Renderer $renderer, $data): string;
 }

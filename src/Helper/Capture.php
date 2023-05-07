@@ -7,7 +7,7 @@ namespace SnappyRenderer\Helper;
 /**
  * @internal
  */
-class Capture
+final class Capture
 {
     private Placeholder $placeholder;
     /** @var mixed */

@@ -11,7 +11,7 @@ use SnappyRenderer\Renderer;
 /**
  * @internal
  */
-class Loop implements Renderable
+final class Loop implements Renderable
 {
     /** @var mixed */
     private $view;

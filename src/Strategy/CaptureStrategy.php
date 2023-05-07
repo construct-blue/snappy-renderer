@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace SnappyRenderer\Strategy;
 
+use SnappyRenderer\AbstractStrategy;
 use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Helper\Capture;
 use SnappyRenderer\Helper\Placeholder;
 use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy;
 
-class CaptureStrategy implements Strategy
+final class CaptureStrategy extends AbstractStrategy
 {
     /** @var Placeholder[] */
     private array $placeholders = [];
@@ -20,13 +20,6 @@ class CaptureStrategy implements Strategy
      */
     private array $captures = [];
 
-    private Strategy $strategy;
-
-    public function __construct(Strategy $strategy)
-    {
-        $this->strategy = $strategy;
-    }
-
     /**
      * @param mixed $view
      * @param Renderer $renderer
@@ -34,7 +27,7 @@ class CaptureStrategy implements Strategy
      * @return string
      * @throws RenderException
      */
-    public function execute($view, Renderer $renderer, $data = null): string
+    public function execute($view, Renderer $renderer, $data): string
     {
         if ($renderer->getLevel() === 1) {
             $this->placeholders = [];
@@ -53,7 +46,7 @@ class CaptureStrategy implements Strategy
             return '';
         }
 
-        $result = $this->strategy->execute($view, $renderer, $data);
+        $result = $this->next($view, $renderer, $data);
 
         if ($renderer->getLevel() === 1) {
             return $this->replacePlaceholders($result, $renderer);
