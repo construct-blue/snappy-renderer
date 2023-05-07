@@ -75,6 +75,9 @@ final class Renderer implements Strategy
         return $this->render(new Capture(new Placeholder($placeholder), $view));
     }
 
+    /**
+     * @throws RenderException
+     */
     public function placeholder(string $code): string
     {
         return $this->render(new Placeholder($code));

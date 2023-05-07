@@ -27,6 +27,10 @@ final class RendererTest extends TestCase
         $this->renderer = new Renderer();
     }
 
+    /**
+     * @noinspection SpellCheckingInspection
+     * @return Generator
+     */
     public function dataProvider_ViewTypes(): Generator
     {
         yield 'Should render string.' => [self::HELLO_WORLD_STRING];
@@ -112,6 +116,9 @@ final class RendererTest extends TestCase
         self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
 
+    /**
+     * @throws RenderException
+     */
     public function testShouldAppendToCapture(): void
     {
         $view = [
@@ -125,6 +132,9 @@ final class RendererTest extends TestCase
         self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
 
+    /**
+     * @throws RenderException
+     */
     public function testShouldResetCaptures(): void
     {
         $view = [
@@ -149,6 +159,9 @@ final class RendererTest extends TestCase
     }
 
 
+    /**
+     * @throws RenderException
+     */
     public function testShouldThrowExceptionWhenPlaceholderIsUsedMoreThenOnce(): void
     {
         self::expectExceptionObject(new RenderException('Placeholder "replace" already in use.'));
@@ -160,12 +173,18 @@ final class RendererTest extends TestCase
     }
 
 
+    /**
+     * @throws RenderException
+     * @noinspection PhpParamsInspection
+     * @noinspection SpellCheckingInspection
+     */
     public function testShouldConvertThrowablesToRenderException(): void
     {
         // @phpstan-ignore-next-line
         $view = fn() => count(null);
         try {
             $x = $view();
+            self::assertFalse($x);
         } catch (Throwable $throwable) {
             self::expectExceptionObject(RenderException::forThrowableInView($throwable, $view));
         }
@@ -173,6 +192,9 @@ final class RendererTest extends TestCase
         $this->renderer->render($view);
     }
 
+    /**
+     * @throws RenderException
+     */
     public function testShouldRenderListOfItemsInLoop(): void
     {
         $view = fn(Renderer $renderer, array $items) => $renderer->loop(
@@ -185,6 +207,9 @@ final class RendererTest extends TestCase
         );
     }
 
+    /**
+     * @throws RenderException
+     */
     public function testShouldRenderConditionally(): void
     {
         $view = fn(Renderer $renderer, array $items) => $renderer->loop(
@@ -201,6 +226,9 @@ final class RendererTest extends TestCase
         );
     }
 
+    /**
+     * @throws RenderException
+     */
     public function testShouldPassArgumentsToClosure(): void
     {
         $view = fn(string $name, string $greeting) => "$greeting $name!";
@@ -210,6 +238,9 @@ final class RendererTest extends TestCase
         );
     }
 
+    /**
+     * @throws RenderException
+     */
     public function testShouldPassIteratorKeyAsData(): void
     {
         $view = [
@@ -218,6 +249,9 @@ final class RendererTest extends TestCase
         self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
 
+    /**
+     * @throws RenderException
+     */
     public function testShouldPassIteratorKeyAsArgumentsToClosure(): void
     {
         $view = fn() => yield new Arguments(['greeting' => 'Hello', 'name' => 'world'])
@@ -225,6 +259,10 @@ final class RendererTest extends TestCase
         self::assertEquals(self::HELLO_WORLD_STRING, $this->renderer->render($view));
     }
 
+    /**
+     * @noinspection SpellCheckingInspection
+     * @throws RenderException
+     */
     public function testShouldRenderExamplePage(): void
     {
         $layout = fn(Renderer $r, string $title, string $language, $body) => <<<HTML

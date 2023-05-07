@@ -32,6 +32,6 @@ final class StrategyFactory
      */
     public function createDefault(): Strategy
     {
-        return $this->createPipeline(...static::DEFAULT_PIPELINE);
+        return $this->createPipeline(...StrategyFactory::DEFAULT_PIPELINE);
     }
 }

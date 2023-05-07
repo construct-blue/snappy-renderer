@@ -16,7 +16,7 @@ final class Placeholder implements Renderable
     private string $code;
 
     /**
-     * @var mixed[]
+     * @var array<int, mixed>
      */
     private array $replacements = [];
 
