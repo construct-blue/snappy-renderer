@@ -12,12 +12,7 @@ use SnappyRenderer\Helper\Capture;
 use SnappyRenderer\Helper\Placeholder;
 use SnappyRenderer\Renderable;
 use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy\CaptureStrategy;
-use SnappyRenderer\Strategy\ClosureStrategy;
-use SnappyRenderer\Strategy\IterableStrategy;
-use SnappyRenderer\Strategy\RenderableStrategy;
-use SnappyRenderer\Strategy\StringStrategy;
-use SnappyRenderer\StrategyFactory;
+use SnappyRenderer\StrategyPipelineFactory;
 use Throwable;
 
 final class RendererTest extends TestCase
@@ -30,15 +25,9 @@ final class RendererTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $strategyFactory = new StrategyFactory();
+        $strategyFactory = new StrategyPipelineFactory();
         $this->renderer = new Renderer(
-            $strategyFactory->createPipeline(
-                IterableStrategy::class,
-                RenderableStrategy::class,
-                ClosureStrategy::class,
-                StringStrategy::class,
-                CaptureStrategy::class
-            ),
+            $strategyFactory->create(),
             256
         );
     }

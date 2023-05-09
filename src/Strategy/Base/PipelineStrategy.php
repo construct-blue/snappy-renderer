@@ -2,18 +2,26 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer;
+namespace SnappyRenderer\Strategy\Base;
 
-abstract class AbstractStrategy implements Strategy
+use SnappyRenderer\Renderer;
+use SnappyRenderer\Strategy;
+
+abstract class PipelineStrategy implements Strategy
 {
     private Strategy $strategy;
 
     /**
      * @param Strategy $strategy
      */
-    public function __construct(Strategy $strategy)
+    final public function __construct(Strategy $strategy)
     {
         $this->strategy = $strategy;
+        $this->init();
+    }
+
+    protected function init(): void
+    {
     }
 
     /**

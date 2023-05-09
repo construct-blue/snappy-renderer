@@ -21,7 +21,7 @@ final class Renderer implements Strategy
 
     public function __construct(Strategy $strategy = null, int $maxLevel = 256)
     {
-        $this->strategy = $strategy ?? (new StrategyFactory())->createDefault();
+        $this->strategy = $strategy ?? (new StrategyPipelineFactory())->create();
         $this->setMaxLevel($maxLevel);
     }
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace SnappyRenderer\Strategy;
 
-use SnappyRenderer\AbstractStrategy;
 use SnappyRenderer\Renderer;
+use SnappyRenderer\Strategy\Base\PipelineStrategy;
 
-final class StringStrategy extends AbstractStrategy
+final class StringStrategy extends PipelineStrategy
 {
     /**
      * @param mixed $view

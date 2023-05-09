@@ -8,21 +8,20 @@ use Closure;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
-use SnappyRenderer\AbstractStrategy;
 use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Helper\Arguments;
 use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy;
+use SnappyRenderer\Strategy\Base\PipelineStrategy;
 use SplObjectStorage;
 
-final class ClosureStrategy extends AbstractStrategy
+final class ClosureStrategy extends PipelineStrategy
 {
     /** @var SplObjectStorage<Closure, ReflectionFunction> */
     private SplObjectStorage $storage;
 
-    public function __construct(Strategy $strategy)
+    protected function init(): void
     {
-        parent::__construct($strategy);
+        parent::init();
         $this->storage = new SplObjectStorage();
     }
 

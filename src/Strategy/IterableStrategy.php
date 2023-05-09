@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace SnappyRenderer\Strategy;
 
-use SnappyRenderer\AbstractStrategy;
 use SnappyRenderer\Exception\RenderException;
 use SnappyRenderer\Renderer;
+use SnappyRenderer\Strategy\Base\PipelineStrategy;
 use Throwable;
 
-final class IterableStrategy extends AbstractStrategy
+final class IterableStrategy extends PipelineStrategy
 {
     /**
      * @param mixed $view
