@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer;
+namespace Blue\Snappy\Renderer;
 
 use Closure;
-use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Helper\Arguments;
-use SnappyRenderer\Helper\Capture;
-use SnappyRenderer\Helper\Conditional;
-use SnappyRenderer\Helper\Loop;
-use SnappyRenderer\Helper\Placeholder;
+use Blue\Snappy\Renderer\Exception\RenderException;
+use Blue\Snappy\Renderer\Helper\Arguments;
+use Blue\Snappy\Renderer\Helper\Capture;
+use Blue\Snappy\Renderer\Helper\Conditional;
+use Blue\Snappy\Renderer\Helper\Loop;
+use Blue\Snappy\Renderer\Helper\Placeholder;
 use Throwable;
 
 final class Renderer implements Strategy

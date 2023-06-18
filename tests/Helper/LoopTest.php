@@ -1,6 +1,6 @@
 <?php
 
-namespace SnappyRendererTest\Helper;
+namespace BlueTest\Snappy\Renderer\Helper;
 
 use PHPUnit\Framework\TestCase;
 use SnappyRenderer\Exception\RenderException;

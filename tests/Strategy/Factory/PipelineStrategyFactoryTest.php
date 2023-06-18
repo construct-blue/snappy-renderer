@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SnappyRendererTest\Strategy\Factory;
+namespace BlueTest\Snappy\Renderer\Strategy\Factory;
 
 use PHPUnit\Framework\TestCase;
 use SnappyRenderer\Exception\StrategyFactoryException;

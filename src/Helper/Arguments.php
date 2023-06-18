@@ -1,6 +1,6 @@
 <?php
 
-namespace SnappyRenderer\Helper;
+namespace Blue\Snappy\Renderer\Helper;
 
 use ArrayObject;
 

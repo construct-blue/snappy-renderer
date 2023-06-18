@@ -3,7 +3,7 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer;
+namespace Blue\Snappy\Renderer;
 
 interface Renderable
 {

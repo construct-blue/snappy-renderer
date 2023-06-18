@@ -3,12 +3,12 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer\Strategy;
+namespace Blue\Snappy\Renderer\Strategy;
 
-use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Renderable;
-use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy\Base\PipelineStrategy;
+use Blue\Snappy\Renderer\Exception\RenderException;
+use Blue\Snappy\Renderer\Renderable;
+use Blue\Snappy\Renderer\Renderer;
+use Blue\Snappy\Renderer\Strategy\Base\PipelineStrategy;
 
 final class RenderableStrategy extends PipelineStrategy
 {

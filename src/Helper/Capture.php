@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer\Helper;
+namespace Blue\Snappy\Renderer\Helper;
 
 /**
  * @internal

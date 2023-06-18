@@ -7,7 +7,7 @@
 ```php
 <?php 
 // A class component
-class App implements \SnappyRenderer\Renderable {
+class App implements \Blue\Snappy\Renderer\Renderable {
     public function render(object $model) : iterable
     {
        return [
@@ -34,6 +34,6 @@ HTML;
 ```
 
 ```php
-$renderer = new \SnappyRenderer\Renderer();
+$renderer = new \Blue\Snappy\Renderer\Renderer();
 echo $renderer->execute(new App(), (object)['name' => 'world'])
 ```

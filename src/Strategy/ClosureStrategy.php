@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer\Strategy;
+namespace Blue\Snappy\Renderer\Strategy;
 
 use Closure;
 use ReflectionException;
 use ReflectionFunction;
 use ReflectionNamedType;
-use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Helper\Arguments;
-use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy\Base\PipelineStrategy;
+use Blue\Snappy\Renderer\Exception\RenderException;
+use Blue\Snappy\Renderer\Helper\Arguments;
+use Blue\Snappy\Renderer\Renderer;
+use Blue\Snappy\Renderer\Strategy\Base\PipelineStrategy;
 use SplObjectStorage;
 
 final class ClosureStrategy extends PipelineStrategy

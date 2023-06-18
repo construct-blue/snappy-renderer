@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer\Strategy;
+namespace Blue\Snappy\Renderer\Strategy;
 
-use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Renderer;
-use SnappyRenderer\Strategy;
+use Blue\Snappy\Renderer\Exception\RenderException;
+use Blue\Snappy\Renderer\Renderer;
+use Blue\Snappy\Renderer\Strategy;
 
 final class InvalidViewStrategy implements Strategy
 {

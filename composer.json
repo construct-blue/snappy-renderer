@@ -22,12 +22,12 @@
   },
   "autoload": {
     "psr-4": {
-      "SnappyRenderer\\": "src"
+      "Blue\\Snappy\\Renderer\\": "src"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "SnappyRendererTest\\": "tests"
+      "BlueTest\\Snappy\\Renderer\\": "tests"
     }
   },
   "scripts": {

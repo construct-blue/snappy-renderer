@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace SnappyRendererTest\Helper;
+namespace BlueTest\Snappy\Renderer\Helper;
 
 use PHPUnit\Framework\TestCase;
 use SnappyRenderer\Helper\Arguments;

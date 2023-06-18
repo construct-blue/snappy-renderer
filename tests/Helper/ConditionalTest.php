@@ -1,10 +1,10 @@
 <?php
 
-namespace SnappyRendererTest\Helper;
+namespace BlueTest\Snappy\Renderer\Helper;
 
 use PHPUnit\Framework\TestCase;
-use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Helper\Conditional;
+use Blue\Snappy\Renderer\Exception\RenderException;
+use Blue\Snappy\Renderer\Helper\Conditional;
 use SnappyRenderer\Renderer;
 
 class ConditionalTest extends TestCase

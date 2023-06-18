@@ -2,17 +2,17 @@
 
 declare(strict_types=1);
 
-namespace SnappyRendererTest;
+namespace BlueTest\Snappy\Renderer;
 
 use Generator;
 use PHPUnit\Framework\TestCase;
-use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Helper\Arguments;
-use SnappyRenderer\Helper\Capture;
-use SnappyRenderer\Helper\Placeholder;
-use SnappyRenderer\Renderable;
-use SnappyRenderer\Renderer;
-use SnappyRenderer\StrategyPipelineFactory;
+use Blue\Snappy\Renderer\Exception\RenderException;
+use Blue\Snappy\Renderer\Helper\Arguments;
+use Blue\Snappy\Renderer\Helper\Capture;
+use Blue\Snappy\Renderer\Helper\Placeholder;
+use Blue\Snappy\Renderer\Renderable;
+use Blue\Snappy\Renderer\Renderer;
+use Blue\Snappy\Renderer\StrategyPipelineFactory;
 use Throwable;
 
 final class RendererTest extends TestCase

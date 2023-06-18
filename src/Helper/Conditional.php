@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace SnappyRenderer\Helper;
+namespace Blue\Snappy\Renderer\Helper;
 
 use Closure;
-use SnappyRenderer\Exception;
-use SnappyRenderer\Renderable;
-use SnappyRenderer\Renderer;
+use Blue\Snappy\Renderer\Exception;
+use Blue\Snappy\Renderer\Renderable;
+use Blue\Snappy\Renderer\Renderer;
 
 /**
  * @internal
