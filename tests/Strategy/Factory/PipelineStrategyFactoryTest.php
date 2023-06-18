@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace BlueTest\Snappy\Renderer\Strategy\Factory;
 
+use Blue\Snappy\Renderer\Exception\StrategyFactoryException;
+use Blue\Snappy\Renderer\Strategy\Factory\PipelineStrategyFactory;
 use PHPUnit\Framework\TestCase;
-use SnappyRenderer\Exception\StrategyFactoryException;
-use SnappyRenderer\Strategy\Factory\PipelineStrategyFactory;
 use stdClass;
 
 class PipelineStrategyFactoryTest extends TestCase

@@ -2,11 +2,11 @@
 
 namespace BlueTest\Snappy\Renderer\Helper;
 
+use Blue\Snappy\Renderer\Exception\RenderException;
+use Blue\Snappy\Renderer\Helper\ArgumentsList;
+use Blue\Snappy\Renderer\Helper\Loop;
+use Blue\Snappy\Renderer\Renderer;
 use PHPUnit\Framework\TestCase;
-use SnappyRenderer\Exception\RenderException;
-use SnappyRenderer\Helper\ArgumentsList;
-use SnappyRenderer\Helper\Loop;
-use SnappyRenderer\Renderer;
 
 class LoopTest extends TestCase
 {

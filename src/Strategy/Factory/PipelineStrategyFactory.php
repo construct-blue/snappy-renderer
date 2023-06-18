@@ -1,11 +1,11 @@
 <?php
 
-namespace SnappyRenderer\Strategy\Factory;
+namespace Blue\Snappy\Renderer\Strategy\Factory;
 
-use SnappyRenderer\Exception\StrategyFactoryException;
-use SnappyRenderer\Strategy;
-use SnappyRenderer\Strategy\Base\PipelineStrategy;
-use SnappyRenderer\StrategyFactory;
+use Blue\Snappy\Renderer\Exception\StrategyFactoryException;
+use Blue\Snappy\Renderer\Strategy;
+use Blue\Snappy\Renderer\Strategy\Base\PipelineStrategy;
+use Blue\Snappy\Renderer\StrategyFactory;
 
 class PipelineStrategyFactory implements StrategyFactory
 {

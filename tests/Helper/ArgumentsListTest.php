@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace BlueTest\Snappy\Renderer\Helper;
 
+use Blue\Snappy\Renderer\Helper\Arguments;
+use Blue\Snappy\Renderer\Helper\ArgumentsList;
 use PHPUnit\Framework\TestCase;
-use SnappyRenderer\Helper\Arguments;
-use SnappyRenderer\Helper\ArgumentsList;
 
 class ArgumentsListTest extends TestCase
 {

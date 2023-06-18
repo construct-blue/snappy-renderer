@@ -1,14 +1,14 @@
 <?php
 
-namespace SnappyRenderer;
+namespace Blue\Snappy\Renderer;
 
-use SnappyRenderer\Strategy\CaptureStrategy;
-use SnappyRenderer\Strategy\ClosureStrategy;
-use SnappyRenderer\Strategy\Factory\PipelineStrategyFactory;
-use SnappyRenderer\Strategy\InvalidViewStrategy;
-use SnappyRenderer\Strategy\IterableStrategy;
-use SnappyRenderer\Strategy\RenderableStrategy;
-use SnappyRenderer\Strategy\StringStrategy;
+use Blue\Snappy\Renderer\Strategy\CaptureStrategy;
+use Blue\Snappy\Renderer\Strategy\ClosureStrategy;
+use Blue\Snappy\Renderer\Strategy\Factory\PipelineStrategyFactory;
+use Blue\Snappy\Renderer\Strategy\InvalidViewStrategy;
+use Blue\Snappy\Renderer\Strategy\IterableStrategy;
+use Blue\Snappy\Renderer\Strategy\RenderableStrategy;
+use Blue\Snappy\Renderer\Strategy\StringStrategy;
 
 class StrategyPipelineFactory
 {
