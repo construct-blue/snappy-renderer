@@ -36,7 +36,7 @@ final class RendererTest extends TestCase
      * @noinspection SpellCheckingInspection
      * @return Generator
      */
-    public function dataProvider_ViewTypes(): Generator
+    public static function dataProvider_ViewTypes(): Generator
     {
         yield 'Should render string.' => [self::HELLO_WORLD_STRING];
         yield 'Should render array of strings.' => [self::HELLO_WORLD_ARRAY];
@@ -82,7 +82,9 @@ final class RendererTest extends TestCase
      */
     public function testShouldThrowExceptionForInfiniteRenderLoops(): void
     {
-        self::iniSet('xdebug.max_nesting_level', '5000');
+        if (function_exists('xdebug_enable')) {
+            self::iniSet('xdebug.max_nesting_level', '5000');
+        }
         $view = new class implements Renderable {
             public function render(Renderer $renderer, $data = null): Generator
             {
